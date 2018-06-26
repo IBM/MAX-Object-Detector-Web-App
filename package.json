@@ -1,0 +1,23 @@
+{
+  "name": "max-object-detector-web-app",
+  "version": "1.0.0",
+  "description": "A web app utilizing the [MAX Object Detector](https://github.com/IBM/MAX-Object-Detector) model",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ajbozarth/MAX-Object-Detector-Web-App.git"
+  },
+  "author": "Alex Bozarth",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/ajbozarth/MAX-Object-Detector-Web-App/issues"
+  },
+  "homepage": "https://github.com/ajbozarth/MAX-Object-Detector-Web-App#readme",
+  "dependencies": {
+    "express": "^4.16.3",
+    "request": "^2.87.0"
+  }
+}

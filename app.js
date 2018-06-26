@@ -1,14 +1,12 @@
-const http = require('http');
+var request = require('request');
+var express = require('express');
+var app = express();
 
-const hostname = 'localhost';
-const port = 8090;
+app.use(express.static('static'))
 
-const server = http.createServer((req, res) => {
-  res.statusCode = 200;
-  res.setHeader('Content-Type', 'text/plain');
-  res.end('Hello World\n');
+app.post('/boxes', function (req, res) {
+    var url = "http://localhost:5000/model/predict";
+    req.pipe(request(url)).pipe(res);
 });
 
-server.listen(port, hostname, () => {
-  console.log(`Server running at http://${hostname}:${port}/`);
-});
+app.listen(8090);
