@@ -18,6 +18,7 @@
   "homepage": "https://github.com/ajbozarth/MAX-Object-Detector-Web-App#readme",
   "dependencies": {
     "express": "^4.16.3",
-    "request": "^2.87.0"
+    "request": "^2.87.0",
+    "yargs": "^11.0.0"
   }
 }

@@ -44,7 +44,7 @@ function render_boxes(boxes) {
         ctx.font = "18px 'IBM Plex Sans'";
         ctx.fillStyle = "#000000";
         ctx.strokeStyle = "#FFFFFF";
-        ctx.lineWidth="0.5";
+        ctx.lineWidth="1";
         ctx.fillText(boxes[i]["label"], xmin, ymin);
         ctx.strokeText(boxes[i]["label"], xmin, ymin);
     }
@@ -56,7 +56,7 @@ $(function() {
         // Stop form from submitting normally
         event.preventDefault();
 
-        // Get form data
+        // Create form data
         var form = event.target;
         var file = form[0].files[0];
         var data = new FormData();
@@ -74,7 +74,7 @@ $(function() {
 
             // Perform file upload
             $.ajax({
-                url: "/boxes",
+                url: "/model/predict",
                 method: "post",
                 processData: false,
                 contentType: false,
