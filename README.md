@@ -19,7 +19,7 @@ Change directory into the repository base folder:
 cd MAX-Object-Detector
 ```
 
-To build the docker image locally, run: 
+To build the docker image locally, run:
 
 ```
 docker build -t max-tf-object-detection .

@@ -40,13 +40,22 @@ function render_boxes(boxes) {
         var bwidth = (corners[3] - corners[1]) * width;
         ctx.rect(xmin, ymin, bwidth, bheight);
         ctx.stroke();
+    }
+
+    for (var i = 0; i < boxes.length; i++) {
+        var y = boxes[i]["detection_box"][0] * height;
+        var x = boxes[i]["detection_box"][1] * width;
+        var label = boxes[i]["label"];
 
         ctx.font = "18px 'IBM Plex Sans'";
+        var tWidth = ctx.measureText(label).width;
+        var tHeight = parseInt(ctx.font, 10);
+
         ctx.fillStyle = "#000000";
-        ctx.strokeStyle = "#FFFFFF";
-        ctx.lineWidth="1";
-        ctx.fillText(boxes[i]["label"], xmin, ymin);
-        ctx.strokeText(boxes[i]["label"], xmin, ymin);
+        ctx.fillRect(x, y - tHeight, tWidth, tHeight);
+
+        ctx.fillStyle = "#FFFFFF";
+        ctx.fillText(label, x, y);
     }
 }
 
