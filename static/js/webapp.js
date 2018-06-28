@@ -98,7 +98,7 @@ $(function() {
           render_boxes(data['predictions']);
         },
         error: function(jqXHR, status, error) {
-          alert("Object Detection Failed: " + error);
+          alert('Object Detection Failed: ' + error);
         },
         complete: function() {
           $('#file-submit').text('Submit');
