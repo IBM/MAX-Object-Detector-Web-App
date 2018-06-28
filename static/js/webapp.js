@@ -29,10 +29,13 @@ function render_boxes(boxes) {
     can.width = width;
     can.height = height;
 
+    ctx.font = "18px 'IBM Plex Sans'";
+    ctx.textBaseline = 'top';
+    ctx.lineWidth="5";
+    ctx.strokeStyle = "#000000";
+
     for (var i = 0; i < boxes.length; i++) {
         ctx.beginPath();
-        ctx.lineWidth="5";
-        ctx.strokeStyle = "#000000";
         var corners = boxes[i]["detection_box"];
         var ymin = corners[0] * height;
         var xmin = corners[1] * width;
@@ -47,12 +50,11 @@ function render_boxes(boxes) {
         var x = boxes[i]["detection_box"][1] * width;
         var label = boxes[i]["label"];
 
-        ctx.font = "18px 'IBM Plex Sans'";
         var tWidth = ctx.measureText(label).width;
         var tHeight = parseInt(ctx.font, 10);
 
         ctx.fillStyle = "#000000";
-        ctx.fillRect(x, y - tHeight, tWidth, tHeight);
+        ctx.fillRect(x, y, tWidth, 1.5 * tHeight);
 
         ctx.fillStyle = "#FFFFFF";
         ctx.fillText(label, x, y);
