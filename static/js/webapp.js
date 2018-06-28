@@ -97,8 +97,8 @@ $(function() {
         success: function(data) {
           render_boxes(data['predictions']);
         },
-        error: function() {
-          alert('Must submit a valid file (png, jpeg, jpg, or gif)');
+        error: function(jqXHR, status, error) {
+          alert("Object Detection Failed: " + error);
         },
         complete: function() {
           $('#file-submit').text('Submit');
