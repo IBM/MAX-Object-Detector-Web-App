@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/ajbozarth/MAX-Object-Detector-Web-App.svg?branch=master)](https://travis-ci.org/ajbozarth/MAX-Object-Detector-Web-App)
+
 # Object Detector Web App
 A web app wrapping the [MAX Object Detector](https://github.com/IBM/MAX-Object-Detector) model output
 
