@@ -4,7 +4,7 @@
   "description": "A web app utilizing the [MAX Object Detector](https://github.com/IBM/MAX-Object-Detector) model",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "eslint --ignore-pattern *.min.js ."
   },
   "repository": {
     "type": "git",
@@ -20,5 +20,9 @@
     "express": "^4.16.3",
     "request": "^2.87.0",
     "yargs": "^11.0.0"
+  },
+  "devDependencies": {
+    "eslint": "^5.0.1",
+    "eslint-config-strongloop": "^2.1.0"
   }
 }

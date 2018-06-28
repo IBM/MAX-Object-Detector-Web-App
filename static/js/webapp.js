@@ -14,95 +14,97 @@
  * limitations under the License.
  */
 
-// Javascript code for MAX Object Detector Web App
+/* eslint-env jquery */
+/* eslint-env browser */
+
+'use strict';
 
 function render_boxes(boxes) {
-    var img = $("#user_img");
-    var width = img.width();
-    var height = img.height();
-    var can_html = "<canvas id='img_canvas' width='" 
-        + width + "' height='" + height + "'></canvas>";
-    $('#image_display').append(can_html);
+  var img = $('#user_img');
+  var width = img.width();
+  var height = img.height();
+  var can_html = '<canvas id="img_canvas" width="'
+    + width + '" height="' + height + '"></canvas>';
+  $('#image_display').append(can_html);
 
-    var ctx = $("#img_canvas")[0].getContext("2d");
-    var can = ctx.canvas;
-    can.width = width;
-    can.height = height;
+  var ctx = $('#img_canvas')[0].getContext('2d');
+  var can = ctx.canvas;
+  can.width = width;
+  can.height = height;
 
-    ctx.font = "18px 'IBM Plex Sans'";
-    ctx.textBaseline = 'top';
-    ctx.lineWidth="5";
-    ctx.strokeStyle = "#000000";
+  ctx.font = '18px "IBM Plex Sans"';
+  ctx.textBaseline = 'top';
+  ctx.lineWidth = '5';
+  ctx.strokeStyle = '#000000';
 
-    for (var i = 0; i < boxes.length; i++) {
-        ctx.beginPath();
-        var corners = boxes[i]["detection_box"];
-        var ymin = corners[0] * height;
-        var xmin = corners[1] * width;
-        var bheight = (corners[2] - corners[0]) * height;
-        var bwidth = (corners[3] - corners[1]) * width;
-        ctx.rect(xmin, ymin, bwidth, bheight);
-        ctx.stroke();
-    }
+  for (var i = 0; i < boxes.length; i++) {
+    ctx.beginPath();
+    var corners = boxes[i]['detection_box'];
+    var ymin = corners[0] * height;
+    var xmin = corners[1] * width;
+    var bheight = (corners[2] - corners[0]) * height;
+    var bwidth = (corners[3] - corners[1]) * width;
+    ctx.rect(xmin, ymin, bwidth, bheight);
+    ctx.stroke();
+  }
 
-    for (var i = 0; i < boxes.length; i++) {
-        var y = boxes[i]["detection_box"][0] * height;
-        var x = boxes[i]["detection_box"][1] * width;
-        var label = boxes[i]["label"];
+  for (i = 0; i < boxes.length; i++) {
+    var y = boxes[i]['detection_box'][0] * height;
+    var x = boxes[i]['detection_box'][1] * width;
+    var label = boxes[i]['label'];
 
-        var tWidth = ctx.measureText(label).width;
-        var tHeight = parseInt(ctx.font, 10);
+    var tWidth = ctx.measureText(label).width;
+    var tHeight = parseInt(ctx.font, 10);
 
-        ctx.fillStyle = "#000000";
-        ctx.fillRect(x, y, tWidth, 1.5 * tHeight);
+    ctx.fillStyle = '#000000';
+    ctx.fillRect(x, y, tWidth, 1.5 * tHeight);
 
-        ctx.fillStyle = "#FFFFFF";
-        ctx.fillText(label, x, y);
-    }
+    ctx.fillStyle = '#FFFFFF';
+    ctx.fillText(label, x, y);
+  }
 }
 
 $(function() {
-    // Image upload form submit functionality
-    $('#img-upload').on('submit', function(event){
-        // Stop form from submitting normally
-        event.preventDefault();
+  // Image upload form submit functionality
+  $('#img-upload').on('submit', function(event){
+    // Stop form from submitting normally
+    event.preventDefault();
 
-        // Create form data
-        var form = event.target;
-        var file = form[0].files[0];
-        var data = new FormData();
-        data.append("image", file);
+    // Create form data
+    var form = event.target;
+    var file = form[0].files[0];
+    var data = new FormData();
+    data.append('image', file);
 
-        var reader = new FileReader();
-        reader.onload = function(event) {
-            file_url = event.target.result;
-            $('#image_display').html("<img id='user_img' src='" + file_url + "' />");
-        }
-        reader.readAsDataURL(file);
+    var reader = new FileReader();
+    reader.onload = function(event) {
+      var file_url = event.target.result;
+      $('#image_display').html('<img id="user_img" src="' + file_url + '" />');
+    };
+    reader.readAsDataURL(file);
 
-        if ($("#file-input").val() != "") {
-            $("#file-submit").text("Working...");
+    if ($('#file-input').val() !== '') {
+      $('#file-submit').text('Working...');
 
-            // Perform file upload
-            $.ajax({
-                url: "/model/predict",
-                method: "post",
-                processData: false,
-                contentType: false,
-                data: data,
-                processData: false,
-                dataType: "json",
-                success: function(data) {
-                    render_boxes(data["predictions"]);
-                },
-                error: function() {
-                    alert("Must submit a valid file (png, jpeg, jpg, or gif)");
-                },
-                complete: function() {
-                    $("#file-submit").text("Submit");
-                    $("#file-input").val("");
-                }
-            });
-        }
-    });
+      // Perform file upload
+      $.ajax({
+        url: '/model/predict',
+        method: 'post',
+        processData: false,
+        contentType: false,
+        data: data,
+        dataType: 'json',
+        success: function(data) {
+          render_boxes(data['predictions']);
+        },
+        error: function() {
+          alert('Must submit a valid file (png, jpeg, jpg, or gif)');
+        },
+        complete: function() {
+          $('#file-submit').text('Submit');
+          $('#file-input').val('');
+        },
+      });
+    }
+  });
 });

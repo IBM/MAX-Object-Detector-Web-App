@@ -17,53 +17,53 @@
 /* Style sheet for MAX Image Caption Generator Web App */
 
 body {
-    font-family: 'IBM Plex Sans', 'Helvetica Neue', Arial, sans-serif;
+  font-family: 'IBM Plex Sans', 'Helvetica Neue', Arial, sans-serif;
 }
 
 .container-fluid {
-    padding: 1% 2%;
+  padding: 1% 2%;
 }
 
 #codait-logo {
-    min-width: 162px;
-    min-height: 150px;
+  min-width: 162px;
+  min-height: 150px;
 }
 
 #codait-logo img {
-    width: 162px;
-    height: 150px;
+  width: 162px;
+  height: 150px;
 }
 
 .title-section h1 {
-    margin-top: 10px;
+  margin-top: 10px;
 }
 
 .panel-title {
-    font-size: 18px;
+  font-size: 18px;
 }
 
 .ibm-code .btn-primary {
-    background-color: #26A8A2;
-    border-color: #32A8A3;
-    white-space: normal;
+  background-color: #26A8A2;
+  border-color: #32A8A3;
+  white-space: normal;
 }
 
 .ibm-code .btn-primary:hover {
-    background-color: #1E8B87;
-    border-color: #2D8B89;
+  background-color: #1E8B87;
+  border-color: #2D8B89;
 }
 
 #image_display {
-    position: relative;
+  position: relative;
 }
 
 #image_display img {
-    max-width: 100%;
+  max-width: 100%;
 }
 
 #img_canvas {
-    position: absolute;
-    left: 0;
-    top: 0;
-    z-index: 2;
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 2;
 }

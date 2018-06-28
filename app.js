@@ -14,25 +14,27 @@
  * limitations under the License.
  */
 
-const request = require('request');
-const yargs = require('yargs');
-const express = require('express');
+'use strict';
+
+var request = require('request');
+var yargs = require('yargs');
+var express = require('express');
 
 var args = yargs
-    .default('port', 8090)
-    .default('model', "http://localhost:5000/model/predict")
-    .argv;
+  .default('port', 8090)
+  .default('model', 'http://localhost:5000/model/predict')
+  .argv;
 
 var app = express();
 
 app.use(express.static('static'));
 
-app.post('/model/predict', function (req, res) {
-    req.pipe(request(args.model)).pipe(res);
+app.post('/model/predict', function(req, res) {
+  req.pipe(request(args.model)).pipe(res);
 });
 
 app.listen(args.port);
 
-console.log("Web App Started on Port " + args.port);
-console.log("Using Model Endpoint: " + args.model);
-console.log("Press Cntl-C to stop...");
+console.log('Web App Started on Port ' + args.port);
+console.log('Using Model Endpoint: ' + args.model);
+console.log('Press Cntl-C to stop...');
