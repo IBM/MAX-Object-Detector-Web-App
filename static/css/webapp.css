@@ -53,15 +53,15 @@ body {
   border-color: #2D8B89;
 }
 
-#image_display {
+#image-display {
   position: relative;
 }
 
-#image_display img {
+#image-display img {
   max-width: 100%;
 }
 
-#img_canvas {
+#image-canvas {
   position: absolute;
   left: 0;
   top: 0;

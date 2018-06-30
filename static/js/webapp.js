@@ -20,14 +20,14 @@
 'use strict';
 
 function render_boxes(boxes) {
-  var img = $('#user_img');
+  var img = $('#user-image');
   var width = img.width();
   var height = img.height();
-  var can_html = '<canvas id="img_canvas" width="'
+  var can_html = '<canvas id="image-canvas" width="'
     + width + '" height="' + height + '"></canvas>';
-  $('#image_display').append(can_html);
+  $('#image-display').append(can_html);
 
-  var ctx = $('#img_canvas')[0].getContext('2d');
+  var ctx = $('#image-canvas')[0].getContext('2d');
   var can = ctx.canvas;
   can.width = width;
   can.height = height;
@@ -66,7 +66,7 @@ function render_boxes(boxes) {
 
 $(function() {
   // Image upload form submit functionality
-  $('#img-upload').on('submit', function(event){
+  $('#file-upload').on('submit', function(event){
     // Stop form from submitting normally
     event.preventDefault();
 
@@ -79,12 +79,13 @@ $(function() {
     var reader = new FileReader();
     reader.onload = function(event) {
       var file_url = event.target.result;
-      $('#image_display').html('<img id="user_img" src="' + file_url + '" />');
+      var img_html = '<img id="user-image" src="' + file_url + '" />';
+      $('#image-display').html(img_html);
     };
     reader.readAsDataURL(file);
 
     if ($('#file-input').val() !== '') {
-      $('#file-submit').text('Working...');
+      $('#file-submit').text('Detecting...');
 
       // Perform file upload
       $.ajax({
