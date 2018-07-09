@@ -70,14 +70,14 @@ function paint_box(i, ctx, can) {
 
 function paint_label_text(i, ctx, can) {
   var probability = predictions[i]['probability'];
-  var box = predictions[i]['detection_box']
+  var box = predictions[i]['detection_box'];
   var y = box[0] * can.height;
   var x = box[1] * can.width;
   var bwidth = (box[3] - box[1]) * can.width;
 
   var label = predictions[i]['label'];
-  var prob_txt = (probability * 100).toFixed(1) + "%";
-  var text = label + " : " + prob_txt;
+  var prob_txt = (probability * 100).toFixed(1) + '%';
+  var text = label + ' : ' + prob_txt;
 
   var tWidth = ctx.measureText(text).width;
   if (tWidth > bwidth) {
@@ -91,12 +91,6 @@ function paint_label_text(i, ctx, can) {
 
   ctx.fillStyle = '#FFFFFF';
   ctx.fillText(text, x, y);
-}
-
-function toggle_canvas() {
-  if ($('#image-canvas').length) {
-    $('#image-canvas').style.visibility = 'hidden';
-  }
 }
 
 $(function() {
@@ -155,7 +149,7 @@ $(function() {
   });
 
   // Update threshold value functionality
-  $('#threshold-range').on("input", function() {
+  $('#threshold-range').on('input', function() {
     $('#threshold-text span').html(this.value);
     threshold = $('#threshold-range').val() / 100;
     if ($('#image-canvas').length) {
