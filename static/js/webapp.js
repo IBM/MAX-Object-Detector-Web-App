@@ -40,7 +40,7 @@ function paint_canvas() {
   ctx.clearRect(0, 0, can.width, can.height);
 
   ctx.font = '18px "IBM Plex Sans"';
-  ctx.textBaseline = 'bottom';
+  ctx.textBaseline = 'top';
   ctx.lineWidth = '3';
   ctx.strokeStyle = '#000000';
 
@@ -87,7 +87,7 @@ function paint_label_text(i, ctx, can) {
   var tHeight = parseInt(ctx.font, 10) * 1.4;
 
   ctx.fillStyle = '#000000';
-  ctx.fillRect(x - 1, y - tHeight, tWidth + 2, tHeight);
+  ctx.fillRect(x - 1, y, tWidth + 2, tHeight);
 
   ctx.fillStyle = '#FFFFFF';
   ctx.fillText(text, x, y);
