@@ -19,7 +19,11 @@
 
 'use strict';
 
-function render_boxes(boxes) {
+var threshold = 0.5;
+var predictions = [];
+
+function render_boxes() {
+  // Create canvas
   var img = $('#user-image');
   var width = img.width();
   var height = img.height();
@@ -27,40 +31,71 @@ function render_boxes(boxes) {
     + width + '" height="' + height + '"></canvas>';
   $('#image-display').append(can_html);
 
+  paint_canvas();
+}
+
+function paint_canvas() {
   var ctx = $('#image-canvas')[0].getContext('2d');
   var can = ctx.canvas;
-  can.width = width;
-  can.height = height;
+  ctx.clearRect(0, 0, can.width, can.height);
 
   ctx.font = '18px "IBM Plex Sans"';
-  ctx.textBaseline = 'top';
-  ctx.lineWidth = '5';
+  ctx.textBaseline = 'bottom';
+  ctx.lineWidth = '3';
   ctx.strokeStyle = '#000000';
 
-  for (var i = 0; i < boxes.length; i++) {
-    ctx.beginPath();
-    var corners = boxes[i]['detection_box'];
-    var ymin = corners[0] * height;
-    var xmin = corners[1] * width;
-    var bheight = (corners[2] - corners[0]) * height;
-    var bwidth = (corners[3] - corners[1]) * width;
-    ctx.rect(xmin, ymin, bwidth, bheight);
-    ctx.stroke();
+  for (var i = 0; i < predictions.length; i++) {
+    if (predictions[i]['probability'] > threshold) {
+      paint_box(i, ctx, can);
+    }
   }
 
-  for (i = 0; i < boxes.length; i++) {
-    var y = boxes[i]['detection_box'][0] * height;
-    var x = boxes[i]['detection_box'][1] * width;
-    var label = boxes[i]['label'];
+  for (i = 0; i < predictions.length; i++) {
+    if (predictions[i]['probability'] > threshold) {
+      paint_label_text(i, ctx, can);
+    }
+  }
+}
 
-    var tWidth = ctx.measureText(label).width;
-    var tHeight = parseInt(ctx.font, 10);
+function paint_box(i, ctx, can) {
+  ctx.beginPath();
+  var corners = predictions[i]['detection_box'];
+  var ymin = corners[0] * can.height;
+  var xmin = corners[1] * can.width;
+  var bheight = (corners[2] - corners[0]) * can.height;
+  var bwidth = (corners[3] - corners[1]) * can.width;
+  ctx.rect(xmin, ymin, bwidth, bheight);
+  ctx.stroke();
+}
 
-    ctx.fillStyle = '#000000';
-    ctx.fillRect(x, y, tWidth, 1.5 * tHeight);
+function paint_label_text(i, ctx, can) {
+  var probability = predictions[i]['probability'];
+  var box = predictions[i]['detection_box']
+  var y = box[0] * can.height;
+  var x = box[1] * can.width;
+  var bwidth = (box[3] - box[1]) * can.width;
 
-    ctx.fillStyle = '#FFFFFF';
-    ctx.fillText(label, x, y);
+  var label = predictions[i]['label'];
+  var prob_txt = (probability * 100).toFixed(1) + "%";
+  var text = label + " : " + prob_txt;
+
+  var tWidth = ctx.measureText(text).width;
+  if (tWidth > bwidth) {
+    tWidth = ctx.measureText(label).width;
+    text = label;
+  }
+  var tHeight = parseInt(ctx.font, 10) * 1.4;
+
+  ctx.fillStyle = '#000000';
+  ctx.fillRect(x - 1, y - tHeight, tWidth + 2, tHeight);
+
+  ctx.fillStyle = '#FFFFFF';
+  ctx.fillText(text, x, y);
+}
+
+function toggle_canvas() {
+  if ($('#image-canvas').length) {
+    $('#image-canvas').style.visibility = 'hidden';
   }
 }
 
@@ -75,7 +110,9 @@ $(function() {
     var file = form[0].files[0];
     var data = new FormData();
     data.append('image', file);
+    data.append('threshold', 0.3);
 
+    // Display image on UI
     var reader = new FileReader();
     reader.onload = function(event) {
       var file_url = event.target.result;
@@ -96,7 +133,8 @@ $(function() {
         data: data,
         dataType: 'json',
         success: function(data) {
-          render_boxes(data['predictions']);
+          predictions = data['predictions'];
+          render_boxes();
         },
         error: function(jqXHR, status, error) {
           alert('Object Detection Failed: ' + error);
@@ -106,6 +144,22 @@ $(function() {
           $('#file-input').val('');
         },
       });
+    }
+  });
+
+  // Toggle canvas visibility functionality
+  $('#toggle-button').click(function() {
+    if ($('#image-canvas').length) {
+      $('#image-canvas').toggle();
+    }
+  });
+
+  // Update threshold value functionality
+  $('#threshold-range').on("input", function() {
+    $('#threshold-text span').html(this.value);
+    threshold = $('#threshold-range').val() / 100;
+    if ($('#image-canvas').length) {
+      paint_canvas();
     }
   });
 });
