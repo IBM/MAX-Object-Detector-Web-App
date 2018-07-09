@@ -129,6 +129,9 @@ $(function() {
         success: function(data) {
           predictions = data['predictions'];
           render_boxes();
+          if (predictions.length === 0) {
+            alert('No Objects Detected');
+          }
         },
         error: function(jqXHR, status, error) {
           alert('Object Detection Failed: ' + error);
