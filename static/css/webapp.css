@@ -53,6 +53,10 @@ body {
   border-color: #2D8B89;
 }
 
+#threshold-range {
+  margin: 15px 0;
+}
+
 #image-display {
   position: relative;
 }
