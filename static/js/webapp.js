@@ -42,7 +42,7 @@ function paint_canvas() {
   ctx.font = '16px "IBM Plex Sans"';
   ctx.textBaseline = 'top';
   ctx.lineWidth = '3';
-  ctx.strokeStyle = '#000000';
+  ctx.strokeStyle = '#00FF00';
 
   for (var i = 0; i < predictions.length; i++) {
     if (predictions[i]['probability'] > threshold) {
@@ -86,10 +86,10 @@ function paint_label_text(i, ctx, can) {
   }
   var tHeight = parseInt(ctx.font, 10) * 1.4;
 
-  ctx.fillStyle = '#000000';
+  ctx.fillStyle = '#00FF00';
   ctx.fillRect(x, y, tWidth + 3, tHeight);
 
-  ctx.fillStyle = '#FFFFFF';
+  ctx.fillStyle = '#000000';
   ctx.fillText(text, x + 1, y);
 }
 
@@ -104,7 +104,7 @@ $(function() {
     var file = form[0].files[0];
     var data = new FormData();
     data.append('image', file);
-    data.append('threshold', 0.3);
+    data.append('threshold', 0);
 
     // Display image on UI
     var reader = new FileReader();
