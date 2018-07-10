@@ -75,7 +75,10 @@ limitations under the License.
           <div id="canvas-tools" class="panel panel-default">
 
               <div class="panel-heading">
-                <div class="panel-title">Model Output</div>
+                <div class="panel-title">
+                  Filter Detected Objects
+                  <span class="info-icon" title="Use the slider to adjust the threshold for displaying detected objects. Lowering the threshold will display detected objects the model is less certain about. If no bounding boxes are displayed try lowering the threshold.">&#9432;</span>
+                </div>
               </div>
 
               <div class="panel-body">
@@ -84,7 +87,6 @@ limitations under the License.
                     <span>50</span>%
                   </div>
                   <input id="threshold-range" type="range" min="1" max="100" value="50" class="slider">
-                  <button id="toggle-button" class="btn btn-primary">Toggle Visibility</button>
               </div>
 
             </div>

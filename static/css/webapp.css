@@ -53,6 +53,12 @@ body {
   border-color: #2D8B89;
 }
 
+.info-icon {
+  font-size: 14px;
+  font-weight: bold;
+  cursor: help;
+}
+
 #threshold-range {
   margin: 15px 0;
 }

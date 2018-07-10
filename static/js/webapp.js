@@ -144,13 +144,6 @@ $(function() {
     }
   });
 
-  // Toggle canvas visibility functionality
-  $('#toggle-button').click(function() {
-    if ($('#image-canvas').length) {
-      $('#image-canvas').toggle();
-    }
-  });
-
   // Update threshold value functionality
   $('#threshold-range').on('input', function() {
     $('#threshold-text span').html(this.value);
