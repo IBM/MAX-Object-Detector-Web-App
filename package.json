@@ -8,14 +8,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ajbozarth/MAX-Object-Detector-Web-App.git"
+    "url": "git+https://github.com/CODAIT/MAX-Object-Detector-Web-App.git"
   },
   "author": "Alex Bozarth",
   "license": "Apache-2.0",
   "bugs": {
-    "url": "https://github.com/ajbozarth/MAX-Object-Detector-Web-App/issues"
+    "url": "https://github.com/CODAIT/MAX-Object-Detector-Web-App/issues"
   },
-  "homepage": "https://github.com/ajbozarth/MAX-Object-Detector-Web-App#readme",
+  "homepage": "https://github.com/CODAIT/MAX-Object-Detector-Web-App#readme",
   "dependencies": {
     "express": "^4.16.3",
     "request": "^2.87.0",

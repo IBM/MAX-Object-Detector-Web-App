@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/ajbozarth/MAX-Object-Detector-Web-App.svg?branch=master)](https://travis-ci.org/ajbozarth/MAX-Object-Detector-Web-App)
+[![Build Status](https://travis-ci.org/CODAIT/MAX-Object-Detector-Web-App.svg?branch=master)](https://travis-ci.org/CODAIT/MAX-Object-Detector-Web-App)
 
 # Object Detector Web App
 A web app wrapping the [MAX Object Detector](https://github.com/IBM/MAX-Object-Detector) model output
@@ -42,7 +42,7 @@ docker run -it -p 5000:5000 max-tf-object-detection
 Clone the web app repository locally. In a terminal, run the following command:
 
 ```
-git clone https://github.com/ajbozarth/MAX-Object-Detector-Web-App.git
+git clone https://github.com/CODAIT/MAX-Object-Detector-Web-App.git
 ```
 
 Change directory into the repository base folder:
