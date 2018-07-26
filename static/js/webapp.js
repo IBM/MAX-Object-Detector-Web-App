@@ -20,9 +20,26 @@
 'use strict';
 
 var threshold = 0.5;
+var highlight = '';
+var filter_list = [];
 var predictions = [];
 
-function render_boxes() {
+function update_label_icons() {
+  $('.label-icon').hide();
+  for (var i = 0; i < predictions.length; i++) {
+    var icon_id = '#label-icon-' + predictions[i]['label_id'];
+    if (predictions[i]['probability'] > threshold) {
+      $(icon_id).show();
+    }
+  }
+}
+
+function display_box(i) {
+  return predictions[i]['probability'] > threshold
+    && !filter_list.includes(predictions[i]['label_id']);
+}
+
+function create_canvas() {
   // Create canvas
   var img = $('#user-image');
   var width = img.width();
@@ -35,24 +52,32 @@ function render_boxes() {
 }
 
 function paint_canvas() {
-  var ctx = $('#image-canvas')[0].getContext('2d');
-  var can = ctx.canvas;
-  ctx.clearRect(0, 0, can.width, can.height);
+  if ($('#image-canvas').length) {
+    update_label_icons();
 
-  ctx.font = '16px "IBM Plex Sans"';
-  ctx.textBaseline = 'top';
-  ctx.lineWidth = '3';
-  ctx.strokeStyle = '#00FF00';
+    var ctx = $('#image-canvas')[0].getContext('2d');
+    var can = ctx.canvas;
+    ctx.clearRect(0, 0, can.width, can.height);
 
-  for (var i = 0; i < predictions.length; i++) {
-    if (predictions[i]['probability'] > threshold) {
-      paint_box(i, ctx, can);
+    ctx.font = '16px "IBM Plex Sans"';
+    ctx.textBaseline = 'top';
+    ctx.lineWidth = '3';
+
+    for (var i = 0; i < predictions.length; i++) {
+      if (display_box(i)) {
+        if (predictions[i]['label_id'] === highlight) {
+          ctx.strokeStyle = '#FFFFFF';
+        } else {
+          ctx.strokeStyle = '#00FF00';
+        }
+        paint_box(i, ctx, can);
+      }
     }
-  }
 
-  for (i = 0; i < predictions.length; i++) {
-    if (predictions[i]['probability'] > threshold) {
-      paint_label_text(i, ctx, can);
+    for (i = 0; i < predictions.length; i++) {
+      if (display_box(i)) {
+        paint_label_text(i, ctx, can);
+      }
     }
   }
 }
@@ -86,7 +111,11 @@ function paint_label_text(i, ctx, can) {
   }
   var tHeight = parseInt(ctx.font, 10) * 1.4;
 
-  ctx.fillStyle = '#00FF00';
+  if (predictions[i]['label_id'] === highlight) {
+    ctx.fillStyle = '#FFFFFF';
+  } else {
+    ctx.fillStyle = '#00FF00';
+  }
   ctx.fillRect(x, y, tWidth + 3, tHeight);
 
   ctx.fillStyle = '#000000';
@@ -128,7 +157,7 @@ $(function() {
         dataType: 'json',
         success: function(data) {
           predictions = data['predictions'];
-          render_boxes();
+          create_canvas();
           if (predictions.length === 0) {
             alert('No Objects Detected');
           }
@@ -148,8 +177,42 @@ $(function() {
   $('#threshold-range').on('input', function() {
     $('#threshold-text span').html(this.value);
     threshold = $('#threshold-range').val() / 100;
-    if ($('#image-canvas').length) {
-      paint_canvas();
-    }
+    paint_canvas();
   });
+
+  // Populate the label icons on page load
+  $.get('/model/labels', function(result) {
+    $.each(result['labels'], function(i, label) {
+      $('#label-icons').append($('<img>', {
+        class: 'label-icon',
+        id: 'label-icon-' + label.id,
+        title: label.name,
+        src: '/img/cocoicons/' + label.id + '.jpg',
+      }));
+      console.log(label.id + '.jpg');
+    });
+
+    // Add an "onClick" for each icon
+    $('.label-icon').on('click', function() {
+      var this_id = $(this).attr('id').match(/\d+$/)[0];
+      if ($(this).hasClass('hide-label')) {
+        $(this).removeClass('hide-label');
+        filter_list.splice(filter_list.indexOf(this_id), 1);
+      } else {
+        $(this).addClass('hide-label');
+        filter_list.push(this_id);
+      }
+      paint_canvas();
+    });
+
+    // Add mouse over for each icon
+    $('.label-icon').hover(function() {
+      highlight = $(this).attr('id').match(/\d+$/)[0];
+      paint_canvas();
+    }, function() {
+      highlight = '';
+      paint_canvas();
+    });
+  });
+
 });

@@ -77,3 +77,15 @@ body {
   top: 0;
   z-index: 2;
 }
+
+.label-icon {
+  display: none;
+  margin: 2px;
+  width: 50px;
+  height: 50px;
+  cursor: pointer;
+}
+
+.hide-label {
+  opacity: 0.4;
+}
