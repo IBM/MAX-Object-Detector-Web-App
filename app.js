@@ -22,19 +22,19 @@ var express = require('express');
 
 var args = yargs
   .default('port', 8090)
-  .default('model', 'http://localhost:5000/model/predict')
+  .default('model', 'http://localhost:5000')
   .argv;
 
 var app = express();
 
 app.use(express.static('static'));
 
-app.post('/model/predict', function(req, res) {
-  req.pipe(request(args.model)).pipe(res);
+app.all('/model/:route', function(req, res) {
+  req.pipe(request(args.model + req.path)).pipe(res);
 });
 
 app.listen(args.port);
 
 console.log('Web App Started on Port ' + args.port);
 console.log('Using Model Endpoint: ' + args.model);
-console.log('Press Cntl-C to stop...');
+console.log('Press Ctrl-C to stop...');

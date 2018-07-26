@@ -34,22 +34,22 @@ limitations under the License.
 
     <div class="row">
 
-      <div class="col-md-7">
+      <div class="col-md-6">
 
-        <div id="codait-logo" class="col-md-3">
-          <a href="/">
-            <img src="/img/codait-logo.jpg"/>
-          </a>
-        </div>
+          <div id="codait-logo" class="col-md-3">
+            <a href="/">
+              <img src="/img/codait-logo.jpg"/>
+            </a>
+          </div>
 
-        <div class="col-md-4 title-section">
-          <h1>MAX Object Detector</h1>
-        </div>
+          <div class="col-md-4 title-section">
+            <h1>MAX Object Detector</h1>
+          </div>
 
 
-        <div class="col-md-5">
+          <div class="col-md-5">
 
-          <div id="image-upload" class="panel panel-default">
+            <div id="image-upload" class="panel panel-default">
 
               <div class="panel-heading">
                 <div class="panel-title">Upload A Image</div>
@@ -66,31 +66,49 @@ limitations under the License.
 
             </div>
 
+          </div>
         </div>
 
-      </div>
 
       <div class="col-md-3">
 
-          <div id="canvas-tools" class="panel panel-default">
+        <div id="canvas-tools" class="panel panel-default">
 
-              <div class="panel-heading">
-                <div class="panel-title">
-                  Filter Detected Objects
-                  <span class="info-icon" title="Use the slider to adjust the threshold for displaying detected objects. Lowering the threshold displays objects the model is less certain about. If no bounding boxes are displayed, try lowering the threshold.">&#9432;</span>
-                </div>
+          <div class="panel-heading">
+            <div class="panel-title">
+              Filter Detected Objects
+              <span class="info-icon" title="Use the slider to adjust the threshold for displaying detected objects. Lowering the threshold displays objects the model is less certain about. If no bounding boxes are displayed, try lowering the threshold.">&#9432;</span>
+            </div>
+          </div>
+
+          <div class="panel-body">
+              <div id="threshold-text">
+                <b>Probability Threshold:</b>
+                <span>50</span>%
               </div>
+              <input id="threshold-range" type="range" min="0" max="100" value="50" class="slider">
+          </div>
 
-              <div class="panel-body">
-                  <div id="threshold-text">
-                    <b>Probability Threshold:</b>
-                    <span>50</span>%
-                  </div>
-                  <input id="threshold-range" type="range" min="0" max="100" value="50" class="slider">
+          </div>
+
+        </div>
+
+        <div class="col-md-3">
+
+          <div id="label-filter" class="panel panel-default">
+
+            <div class="panel-heading">
+              <div class="panel-title">
+                Labels Found
+                <span class="info-icon" title="Deselect label icons to hide boxes with that label. Hovering over an icon will highlight matching labels.">&#9432;</span>
               </div>
-
             </div>
 
+            <div class="panel-body">
+              <div id="label-icons"></div>
+            </div>
+
+          </div>
         </div>
 
     </div>
@@ -99,9 +117,7 @@ limitations under the License.
 
       <div class="col-md-12">
 
-        <div id="image-display">
-
-        </div>
+        <div id="image-display"></div>
 
       </div>
 
