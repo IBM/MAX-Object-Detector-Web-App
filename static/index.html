@@ -36,39 +36,38 @@ limitations under the License.
 
       <div class="col-md-6">
 
-          <div id="codait-logo" class="col-md-3">
-            <a href="/">
-              <img src="/img/codait-logo.jpg"/>
-            </a>
-          </div>
+        <div id="codait-logo" class="col-md-3">
+          <a href="/">
+            <img src="/img/codait-logo.jpg"/>
+          </a>
+        </div>
 
-          <div class="col-md-4 title-section">
-            <h1>MAX Object Detector</h1>
-          </div>
+        <div class="col-md-4 title-section">
+          <h1>MAX Object Detector</h1>
+        </div>
 
+        <div class="col-md-5">
 
-          <div class="col-md-5">
+          <div id="image-upload" class="panel panel-default">
 
-            <div id="image-upload" class="panel panel-default">
+            <div class="panel-heading">
+              <div class="panel-title">Upload A Image</div>
+            </div>
 
-              <div class="panel-heading">
-                <div class="panel-title">Upload A Image</div>
-              </div>
-
-              <div class="panel-body">
-                <form id="file-upload" enctype="multipart/form-data">
-                  <div class="form-group">
-                    <input id="file-input" type="file" name="file" accept=".png, .jpg, .jpeg, .gif" />
-                  </div>
-                  <button id="file-submit" type="submit" class="btn btn-primary">Submit</button>
-                </form>
-              </div>
-
+            <div class="panel-body">
+              <form id="file-upload" enctype="multipart/form-data">
+                <div class="form-group">
+                  <input id="file-input" type="file" name="file" accept=".png, .jpg, .jpeg, .gif" />
+                </div>
+                <button id="file-submit" type="submit" class="btn btn-primary">Submit</button>
+              </form>
             </div>
 
           </div>
+
         </div>
 
+      </div>
 
       <div class="col-md-3">
 
@@ -82,34 +81,34 @@ limitations under the License.
           </div>
 
           <div class="panel-body">
-              <div id="threshold-text">
-                <b>Probability Threshold:</b>
-                <span>50</span>%
-              </div>
-              <input id="threshold-range" type="range" min="0" max="100" value="50" class="slider">
-          </div>
-
+            <div id="threshold-text">
+              <b>Probability Threshold:</b>
+              <span>50</span>%
+            </div>
+            <input id="threshold-range" type="range" min="0" max="100" value="50" class="slider">
           </div>
 
         </div>
 
-        <div class="col-md-3">
+      </div>
 
-          <div id="label-filter" class="panel panel-default">
+      <div class="col-md-3">
 
-            <div class="panel-heading">
-              <div class="panel-title">
-                Labels Found
-                <span class="info-icon" title="Deselect label icons to hide boxes with that label. Hovering over an icon will highlight matching labels.">&#9432;</span>
-              </div>
+        <div id="label-filter" class="panel panel-default">
+
+          <div class="panel-heading">
+            <div class="panel-title">
+              Labels Found
+              <span class="info-icon" title="Deselect label icons to hide boxes with that label. Hovering over an icon will highlight matching labels.">&#9432;</span>
             </div>
-
-            <div class="panel-body">
-              <div id="label-icons"></div>
-            </div>
-
           </div>
+
+          <div class="panel-body">
+            <div id="label-icons"></div>
+          </div>
+
         </div>
+      </div>
 
     </div>
 
