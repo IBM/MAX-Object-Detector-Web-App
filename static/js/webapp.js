@@ -140,7 +140,9 @@ $(function() {
     reader.onload = function(event) {
       var file_url = event.target.result;
       var img_html = '<img id="user-image" src="' + file_url + '" />';
-      $('#image-display').html(img_html);
+      $('#image-display').html(img_html); // replaces previous img and canvas
+      predictions = []; // remove any previous metadata
+      update_label_icons(); // reset label icons
     };
     reader.readAsDataURL(file);
 
