@@ -19,6 +19,11 @@
 
 'use strict';
 
+// canvas colors
+var color_normal = '#00FF00'; // Lime
+var color_highlight = '#FFFFFF'; // White
+var color_text = '#000000'; // Black
+
 var threshold = 0.5;
 var highlight = '';
 var filter_list = [];
@@ -66,9 +71,9 @@ function paint_canvas() {
     for (var i = 0; i < predictions.length; i++) {
       if (display_box(i)) {
         if (predictions[i]['label_id'] === highlight) {
-          ctx.strokeStyle = '#FFFFFF';
+          ctx.strokeStyle = color_highlight;
         } else {
-          ctx.strokeStyle = '#00FF00';
+          ctx.strokeStyle = color_normal;
         }
         paint_box(i, ctx, can);
       }
@@ -112,13 +117,13 @@ function paint_label_text(i, ctx, can) {
   var tHeight = parseInt(ctx.font, 10) * 1.4;
 
   if (predictions[i]['label_id'] === highlight) {
-    ctx.fillStyle = '#FFFFFF';
+    ctx.fillStyle = color_highlight;
   } else {
-    ctx.fillStyle = '#00FF00';
+    ctx.fillStyle = color_normal;
   }
   ctx.fillRect(x, y, tWidth + 3, tHeight);
 
-  ctx.fillStyle = '#000000';
+  ctx.fillStyle = color_text;
   ctx.fillText(text, x + 1, y);
 }
 
