@@ -5,65 +5,39 @@ A web app wrapping the [MAX Object Detector](https://github.com/IBM/MAX-Object-D
 
 # Steps
 
-## Start the Model REST API
+## Run Locally
 
-### 1. Build the Model
-
-Clone the model repository locally. In a terminal, run the following command:
-
-```
-git clone https://github.com/IBM/MAX-Object-Detector.git
-```
-
-Change directory into the repository base folder:
-
-```
-cd MAX-Object-Detector
-```
-
-To build the docker image locally, run:
-
-```
-docker build -t max-tf-object-detection .
-```
-
-### 2. Deploy the Model
+### Deploy the Model
 
 To run the docker image, which automatically starts the model serving API, run:
 
-```
-docker run -it -p 5000:5000 max-tf-object-detection
-```
+    docker run -it -p 5000:5000 codait/max-object-detector
 
-## Start the Web App
+This will pull a pre-built image from Docker Hub (or use an existing image if already cached locally) and run it.
+If you'd rather build the model locally you can follow the steps in the
+[model README](https://github.com/CODAIT/MAX-Object-Detector-Web-App/blob/master/README.md#steps).
 
-### 1. Get a local copy of the repository
+### Start the Web App
+
+#### 1. Get a local copy of the repository
 
 Clone the web app repository locally. In a terminal, run the following command:
 
-```
-git clone https://github.com/CODAIT/MAX-Object-Detector-Web-App.git
-```
+    git clone https://github.com/CODAIT/MAX-Object-Detector-Web-App.git
 
 Change directory into the repository base folder:
 
-```
-cd MAX-Object-Detector-Web-App
-```
+    cd MAX-Object-Detector-Web-App
 
-### 2. Install dependancies
+#### 2. Install dependencies
 
 Make sure node.js and npm are installed then, in a terminal, run the following command:
 
-```
-npm install
-```
+    npm install
 
-### 3. Start the Web App
+#### 3. Start the Web App
 
-```
-node app
-```
+    node app
 
 # Links
 - [Node.js](https://nodejs.org/en/)
