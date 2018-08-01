@@ -24,11 +24,13 @@ var color_normal = '#00FF00'; // Lime
 var color_highlight = '#FFFFFF'; // White
 var color_text = '#000000'; // Black
 
+// global vars
 var threshold = 0.5;
 var highlight = '';
 var filter_list = [];
 var predictions = [];
 
+// Refreshes the label icons visibility
 function update_label_icons() {
   $('.label-icon').hide();
   for (var i = 0; i < predictions.length; i++) {
@@ -39,15 +41,17 @@ function update_label_icons() {
   }
 }
 
+// a visibility filter for threshold and and label blacklist
 function display_box(i) {
   return predictions[i]['probability'] > threshold
     && !filter_list.includes(predictions[i]['label_id']);
 }
 
-
+// (re)paints canvas (if canvas exists) and triggers label visibility refresh
 function paint_canvas() {
+  update_label_icons();
+
   if ($('#image-canvas').length) {
-    update_label_icons();
 
     var ctx = $('#image-canvas')[0].getContext('2d');
     var can = ctx.canvas;
@@ -81,6 +85,7 @@ function paint_canvas() {
   }
 }
 
+// module function for painting bounding box on canvas
 function paint_box(i, ctx, can) {
   ctx.beginPath();
   var corners = predictions[i]['detection_box'];
@@ -92,6 +97,7 @@ function paint_box(i, ctx, can) {
   ctx.stroke();
 }
 
+// module function for painting label text on canvas
 function paint_label_text(i, ctx, can) {
   var probability = predictions[i]['probability'];
   var box = predictions[i]['detection_box'];
@@ -121,6 +127,7 @@ function paint_label_text(i, ctx, can) {
   ctx.fillText(text, x + 1, y);
 }
 
+// Run or bind functions on page load
 $(function() {
   // Update canvas when window resizes
   $(window).resize(function(){
@@ -220,5 +227,4 @@ $(function() {
       paint_canvas();
     });
   });
-
 });
