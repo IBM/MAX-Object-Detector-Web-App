@@ -17,7 +17,7 @@ $ docker run -it -p 5000:5000 codait/max-object-detector
 
 This will pull a pre-built image from Docker Hub (or use an existing image if already cached locally) and run it.
 If you'd rather build the model locally you can follow the steps in the
-[model README](https://github.com/CODAIT/MAX-Object-Detector-Web-App/blob/master/README.md#steps).
+[model README](https://github.com/IBM/MAX-Object-Detector/#steps).
 
 ### Start the Web App
 
