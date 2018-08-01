@@ -44,17 +44,6 @@ function display_box(i) {
     && !filter_list.includes(predictions[i]['label_id']);
 }
 
-function create_canvas() {
-  // Create canvas
-  var img = $('#user-image');
-  var width = img.width();
-  var height = img.height();
-  var can_html = '<canvas id="image-canvas" width="'
-    + width + '" height="' + height + '"></canvas>';
-  $('#image-display').append(can_html);
-
-  paint_canvas();
-}
 
 function paint_canvas() {
   if ($('#image-canvas').length) {
@@ -62,6 +51,11 @@ function paint_canvas() {
 
     var ctx = $('#image-canvas')[0].getContext('2d');
     var can = ctx.canvas;
+
+    var img = $('#user-image');
+    can.width = img.width();
+    can.height = img.height();
+
     ctx.clearRect(0, 0, can.width, can.height);
 
     ctx.font = '16px "IBM Plex Sans"';
@@ -128,6 +122,11 @@ function paint_label_text(i, ctx, can) {
 }
 
 $(function() {
+  // Update canvas when window resizes
+  $(window).resize(function(){
+    paint_canvas();
+  });
+
   // Image upload form submit functionality
   $('#file-upload').on('submit', function(event){
     // Stop form from submitting normally
@@ -144,7 +143,8 @@ $(function() {
     var reader = new FileReader();
     reader.onload = function(event) {
       var file_url = event.target.result;
-      var img_html = '<img id="user-image" src="' + file_url + '" />';
+      var img_html = '<img id="user-image" src="' + file_url + '" />'
+        + '<canvas id="image-canvas"></canvas>';
       $('#image-display').html(img_html); // replaces previous img and canvas
       predictions = []; // remove any previous metadata
       update_label_icons(); // reset label icons
@@ -164,7 +164,7 @@ $(function() {
         dataType: 'json',
         success: function(data) {
           predictions = data['predictions'];
-          create_canvas();
+          paint_canvas();
           if (predictions.length === 0) {
             alert('No Objects Detected');
           }
@@ -196,7 +196,6 @@ $(function() {
         title: label.name,
         src: '/img/cocoicons/' + label.id + '.jpg',
       }));
-      console.log(label.id + '.jpg');
     });
 
     // Add an "onClick" for each icon
