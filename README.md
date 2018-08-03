@@ -34,14 +34,14 @@ free and open source deep learning models.
 
 ## Run Locally
 
-#### [Start the Model API](#start-the-model-api)
+#### Start the Model API
 
 1. [Deploy the Model](#1-deploy-the-model)
 2. [Experimenting with the API (Optional)](#2-experimenting-with-the-api-optional)
 
-#### [Start the Web App](#start-the-web-app)
+#### Start the Web App
 
-1. [Get a local copy of the repository](#1-get-a-local-copy-of-the-repository)
+1. [Get a local copy of the repository](#start-the-web-app-1)
 2. [Install dependencies](#2-install-dependencies)
 3. [Start the Web App Server](#3-start-the-web-app-server)
 4. [Configuring ports (Optional)](#4-configuring-ports-optional)
@@ -127,7 +127,7 @@ The default value for `threshold` is `0.7`.
 The latest release of the web app is deployed with the model API above and is available at
 [`http://localhost:5000/app`](http://localhost:5000/app)
 
-To start the web app using the latest development code follow the steps below:
+To start the web app using the latest unreleased development code follow the steps below:
 
 #### 1. Get a local copy of the repository
 
