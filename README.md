@@ -69,6 +69,14 @@ $ node app
 
 You can then access the web app at: [`http://localhost:8090`](http://localhost:8090)
 
+#### 4. Configuring ports (Optional)
+
+If you want to use a different port or are running the model API at a different location you can change them with command-line options:
+
+```
+$ node app --port=[new port] --model=[endpoint url including protocol and port]
+```
+
 # Sample Output
 
 ![Web UI Screenshot](doc/source/images/webui.png)
