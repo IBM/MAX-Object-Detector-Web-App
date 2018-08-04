@@ -1,8 +1,20 @@
 [![Build Status](https://travis-ci.org/CODAIT/MAX-Object-Detector-Web-App.svg?branch=master)](https://travis-ci.org/CODAIT/MAX-Object-Detector-Web-App)
 
-# Create a web app to visually interact with objects detected with machine learning
+# Create a web app to visually interact with objects detected using machine learning
 
-A web app wrapping the [MAX Object Detector](https://github.com/IBM/MAX-Object-Detector) model output
+In this Code Pattern we will use one of the models from the
+[Model Asset eXchange (MAX)](https://developer.ibm.com/code/exchanges/models/),
+an exchange where developers can find and experiment with open source deep learning models.
+Specifically we will be using the [Object Detector](https://github.com/IBM/MAX-Object-Detector)
+to create a web application that will recognize objects in an image and allow the user to
+filter the objects based on their detected label and prediction accuracy. The web application
+provides an interactive user interface backed by a lightweight Node.js server using Express.
+The server hosts a client-side web UI and relays API calls to the model from the web UI to a REST
+end point for the model. The Web UI takes in an image and sends it to the model REST endpoint
+via the server and displays the detected objects on the UI. The model's REST endpoint is set up
+using the docker image provided on MAX. The Web UI displays the detected objects in an image
+using a bounding box and label and includes a toolbar to filter the detected objects based on
+their labels or a threshold for the prediction accuracy.
 
 When the reader has completed this Code Pattern, they will understand how to:
 
@@ -17,7 +29,7 @@ When the reader has completed this Code Pattern, they will understand how to:
 
 1. User uses Web UI to send an image to Model API
 2. Model API returns object data and Web UI displays detected objects
-3. User uses Web UI to interact with detected objects
+3. User interacts with Web UI to view and filter detected objects
 
 ## Included Components
 
@@ -41,7 +53,8 @@ free and open source deep learning models.
 
 #### Start the Web App
 
-1. [Get a local copy of the repository](#start-the-web-app-1)
+0. [Use the embedded web app](#use-the-embedded-web-app)
+1. [Get a local copy of the repository](#get-a-local-copy-of-the-repository)
 2. [Install dependencies](#2-install-dependencies)
 3. [Start the Web App Server](#3-start-the-web-app-server)
 4. [Configuring ports (Optional)](#4-configuring-ports-optional)
@@ -124,10 +137,12 @@ The default value for `threshold` is `0.7`.
 
 ### Start the Web App
 
+#### Use the embedded web app
+
 The latest release of the web app is deployed with the model API above and is available at
 [`http://localhost:5000/app`](http://localhost:5000/app)
 
-To start the web app using the latest unreleased development code follow the steps below:
+To start the web app using Node.js and running the latest code, follow the steps below:
 
 #### 1. Get a local copy of the repository
 
