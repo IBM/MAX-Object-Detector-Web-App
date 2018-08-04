@@ -54,7 +54,7 @@ free and open source deep learning models.
 #### Start the Web App
 
 0. [Use the embedded web app](#use-the-embedded-web-app)
-1. [Get a local copy of the repository](#get-a-local-copy-of-the-repository)
+1. [Get a local copy of the repository](#1-get-a-local-copy-of-the-repository)
 2. [Install dependencies](#2-install-dependencies)
 3. [Start the Web App Server](#3-start-the-web-app-server)
 4. [Configuring ports (Optional)](#4-configuring-ports-optional)
