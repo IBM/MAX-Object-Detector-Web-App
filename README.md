@@ -160,13 +160,13 @@ $ cd MAX-Object-Detector-Web-App
 
 #### 2. Install dependencies
 
-Make sure node.js and npm are installed then, in a terminal, run the following command:
+Make sure Node.js and npm are installed then, in a terminal, run the following command:
 
 ```
 $ npm install
 ```
 
-#### 3. Start the Web App Server
+#### 3. Start the web app server
 
 You then start the web app by running:
 
