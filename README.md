@@ -18,7 +18,7 @@ their labels or a threshold for the prediction accuracy.
 
 When the reader has completed this Code Pattern, they will understand how to:
 
-* Build a Docker image of the Object Detector MAX Model
+* Build a docker image of the Object Detector MAX Model
 * Deploy a deep learning model with a REST endpoint
 * Recognize objects in an image using the MAX Model's REST API
 * Run a web application that using the model's REST API
