@@ -49,7 +49,7 @@ free and open source deep learning models.
 #### Start the Model API
 
 1. [Deploy the Model](#1-deploy-the-model)
-2. [Experimenting with the API (Optional)](#2-experimenting-with-the-api-optional)
+2. [Experiment with the API (Optional)](#2-experiment-with-the-api-optional)
 
 #### Start the Web App
 
@@ -57,7 +57,7 @@ free and open source deep learning models.
 1. [Get a local copy of the repository](#1-get-a-local-copy-of-the-repository)
 2. [Install dependencies](#2-install-dependencies)
 3. [Start the Web App Server](#3-start-the-web-app-server)
-4. [Configuring ports (Optional)](#4-configuring-ports-optional)
+4. [Configure ports (Optional)](#4-configure-ports-optional)
 
 ### Start the Model API
 
@@ -76,7 +76,7 @@ This will pull a pre-built image from Docker Hub (or use an existing image if al
 If you'd rather build the model locally you can follow the steps in the
 [model README](https://github.com/IBM/MAX-Object-Detector/#steps).
 
-#### 2. Experimenting with the API (Optional)
+#### 2. Experiment with the API (Optional)
 
 The API server automatically generates an interactive Swagger documentation page.
 Go to `http://localhost:5000` to load it. From there you can explore the API and also create test requests.
@@ -176,7 +176,7 @@ $ node app
 
 You can then access the web app at: [`http://localhost:8090`](http://localhost:8090)
 
-#### 4. Configuring ports (Optional)
+#### 4. Configure ports (Optional)
 
 If you want to use a different port or are running the model API at a different location you can change them with command-line options:
 
