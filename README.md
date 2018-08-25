@@ -42,6 +42,10 @@ free and open source deep learning models.
 * [JQuery](https://jquery.com): jQuery is a cross-platform JavaScript library designed to simplify the client-side scripting of HTML.
 * [Express](https://expressjs.com): A popular and minimalistic web framework for creating APIs and Web servers.
 
+# Watch the Video
+
+[![Watch the Video](https://img.youtube.com/vi/Hs6sVWmfVFw/0.jpg)](https://www.youtube.com/watch?v=Hs6sVWmfVFw)
+
 # Steps
 
 ## Run Locally
