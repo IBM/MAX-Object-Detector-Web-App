@@ -160,6 +160,7 @@ $(function() {
 
     if ($('#file-input').val() !== '') {
       $('#file-submit').text('Detecting...');
+      $('#file-submit').prop('disabled', true);
 
       // Perform file upload
       $.ajax({
@@ -181,6 +182,7 @@ $(function() {
         },
         complete: function() {
           $('#file-submit').text('Submit');
+          $('#file-submit').prop('disabled', false);
           $('#file-input').val('');
         },
       });
