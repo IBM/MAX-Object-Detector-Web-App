@@ -20,73 +20,48 @@
 'use strict';
 
 // canvas colors
-var color_normal = '#00FF00'; // Lime
-var color_highlight = '#FFFFFF'; // White
+var color_box = '#00FF00'; // Lime
 var color_text = '#000000'; // Black
 
-// global vars
-var threshold = 0.5;
-var highlight = '';
-var filter_list = [];
+// global var for current prediction results
 var predictions = [];
-
-// Refreshes the label icons visibility
-function update_label_icons() {
-  $('.label-icon').hide();
-  for (var i = 0; i < predictions.length; i++) {
-    var icon_id = '#label-icon-' + predictions[i]['label_id'];
-    if (predictions[i]['probability'] > threshold) {
-      $(icon_id).show();
-    }
-  }
-}
-
-// a visibility filter for threshold and and label blacklist
-function display_box(i) {
-  return predictions[i]['probability'] > threshold
-    && !filter_list.includes(predictions[i]['label_id']);
-}
 
 // (re)paints canvas (if canvas exists) and triggers label visibility refresh
 function paint_canvas() {
-  update_label_icons();
-
+  // Check if the canvas exists to prevent errors
   if ($('#image-canvas').length) {
-
+    // Initialize the canvas and context vars
     var ctx = $('#image-canvas')[0].getContext('2d');
     var can = ctx.canvas;
 
+    // Set canvas size to current image size
     var img = $('#user-image');
     can.width = img.width();
     can.height = img.height();
 
+    // Clear canvas (for use on repaint)
     ctx.clearRect(0, 0, can.width, can.height);
 
+    // Set canvas text settings (for labels)
     ctx.font = '16px "IBM Plex Sans"';
     ctx.textBaseline = 'top';
     ctx.lineWidth = '3';
 
+    // Draw the bounding boxes
     for (var i = 0; i < predictions.length; i++) {
-      if (display_box(i)) {
-        if (predictions[i]['label_id'] === highlight) {
-          ctx.strokeStyle = color_highlight;
-        } else {
-          ctx.strokeStyle = color_normal;
-        }
-        paint_box(i, ctx, can);
-      }
+      paint_box(i, ctx, can);
     }
 
+    // Draw the labels (drawn after to prevent overlap)
     for (i = 0; i < predictions.length; i++) {
-      if (display_box(i)) {
-        paint_label_text(i, ctx, can);
-      }
+      paint_label(i, ctx, can);
     }
   }
 }
 
 // module function for painting bounding box on canvas
 function paint_box(i, ctx, can) {
+  ctx.strokeStyle = color_box;
   ctx.beginPath();
   var corners = predictions[i]['detection_box'];
   var ymin = corners[0] * can.height;
@@ -98,33 +73,23 @@ function paint_box(i, ctx, can) {
 }
 
 // module function for painting label text on canvas
-function paint_label_text(i, ctx, can) {
-  var probability = predictions[i]['probability'];
+function paint_label(i, ctx, can) {
   var box = predictions[i]['detection_box'];
   var y = box[0] * can.height;
   var x = box[1] * can.width;
-  var bwidth = (box[3] - box[1]) * can.width;
 
   var label = predictions[i]['label'];
-  var prob_txt = (probability * 100).toFixed(1) + '%';
-  var text = label + ' : ' + prob_txt;
 
-  var tWidth = ctx.measureText(text).width;
-  if (tWidth > bwidth) {
-    tWidth = ctx.measureText(label).width;
-    text = label;
-  }
+  var tWidth = ctx.measureText(label).width;
   var tHeight = parseInt(ctx.font, 10) * 1.4;
 
-  if (predictions[i]['label_id'] === highlight) {
-    ctx.fillStyle = color_highlight;
-  } else {
-    ctx.fillStyle = color_normal;
-  }
+  // paint the label background box
+  ctx.fillStyle = color_box;
   ctx.fillRect(x, y, tWidth + 3, tHeight);
 
+  // paint the label
   ctx.fillStyle = color_text;
-  ctx.fillText(text, x + 1, y);
+  ctx.fillText(label, x + 1, y);
 }
 
 // Run or bind functions on page load
@@ -144,7 +109,7 @@ $(function() {
     var file = form[0].files[0];
     var data = new FormData();
     data.append('image', file);
-    data.append('threshold', 0);
+    data.append('threshold', 0.5);
 
     // Display image on UI
     var reader = new FileReader();
@@ -154,11 +119,11 @@ $(function() {
         + '<canvas id="image-canvas"></canvas>';
       $('#image-display').html(img_html); // replaces previous img and canvas
       predictions = []; // remove any previous metadata
-      update_label_icons(); // reset label icons
     };
     reader.readAsDataURL(file);
 
     if ($('#file-input').val() !== '') {
+      // Disable upload while making call to model
       $('#file-submit').text('Detecting...');
       $('#file-submit').prop('disabled', true);
 
@@ -181,52 +146,12 @@ $(function() {
           alert('Object Detection Failed: ' + error);
         },
         complete: function() {
+          // Re-enable upload button
           $('#file-submit').text('Submit');
           $('#file-submit').prop('disabled', false);
           $('#file-input').val('');
         },
       });
     }
-  });
-
-  // Update threshold value functionality
-  $('#threshold-range').on('input', function() {
-    $('#threshold-text span').html(this.value);
-    threshold = $('#threshold-range').val() / 100;
-    paint_canvas();
-  });
-
-  // Populate the label icons on page load
-  $.get('/model/labels', function(result) {
-    $.each(result['labels'], function(i, label) {
-      $('#label-icons').append($('<img>', {
-        class: 'label-icon',
-        id: 'label-icon-' + label.id,
-        title: label.name,
-        src: '/img/cocoicons/' + label.id + '.jpg',
-      }));
-    });
-
-    // Add an "onClick" for each icon
-    $('.label-icon').on('click', function() {
-      var this_id = $(this).attr('id').match(/\d+$/)[0];
-      if ($(this).hasClass('hide-label')) {
-        $(this).removeClass('hide-label');
-        filter_list.splice(filter_list.indexOf(this_id), 1);
-      } else {
-        $(this).addClass('hide-label');
-        filter_list.push(this_id);
-      }
-      paint_canvas();
-    });
-
-    // Add mouse over for each icon
-    $('.label-icon').hover(function() {
-      highlight = $(this).attr('id').match(/\d+$/)[0];
-      paint_canvas();
-    }, function() {
-      highlight = '';
-      paint_canvas();
-    });
   });
 });
