@@ -5,7 +5,7 @@
 In this Code Pattern we will use one of the models from the
 [Model Asset eXchange (MAX)](https://developer.ibm.com/code/exchanges/models/),
 an exchange where developers can find and experiment with open source deep learning models.
-Specifically we will be using the [Object Detector](https://github.com/IBM/MAX-Object-Detector)
+Specifically we will be using the [Object Detector](https://developer.ibm.com/exchanges/models/all/max-object-detector/)
 to create a web application that will recognize objects in an image and allow the user to
 filter the objects based on their detected label and prediction accuracy. The web application
 provides an interactive user interface backed by a lightweight Node.js server using Express.
