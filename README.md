@@ -1,4 +1,4 @@
-[![Build Status](https://api.travis-ci.org/IBM/MAX-Object-Detector-Web-App.svg?branch=master)](https://travis-ci.org/IBM/MAX-Object-Detector-Web-App)
+[![Build Status](https://travis-ci.org/IBM/MAX-Object-Detector-Web-App.svg?branch=master)](https://travis-ci.org/IBM/MAX-Object-Detector-Web-App)
 
 # Create a web app to visually interact with objects detected using machine learning
 
@@ -153,7 +153,7 @@ To start the web app using Node.js and running the latest code, follow the steps
 Clone the web app repository locally. In a terminal, run the following command:
 
 ```
-$ git clone https://github.com/IBM/MAX-Object-Detector-Web-App.git
+$ git clone https://github.com/IBM/MAX-Object-Detector-Web-App
 ```
 
 Change directory into the repository base folder:
