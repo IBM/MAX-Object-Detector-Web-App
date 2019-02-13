@@ -178,7 +178,7 @@ $(function() {
           }
         },
         error: function(jqXHR, status, error) {
-          alert('Object Detection Failed: ' + error);
+          alert('Object Detection Failed: ' + jqXHR.responseText);
         },
         complete: function() {
           $('#file-submit').text('Submit');
