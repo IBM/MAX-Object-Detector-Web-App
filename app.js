@@ -30,7 +30,12 @@ var app = express();
 app.use(express.static('static'));
 
 app.all('/model/:route', function(req, res) {
-  req.pipe(request(args.model + req.path)).pipe(res);
+  req.pipe(request(args.model + req.path))
+    .on('error', function(err) {
+      console.error(err);
+      res.status(500).send('Error connecting to the model microservice');
+    })
+    .pipe(res);
 });
 
 app.listen(args.port);
