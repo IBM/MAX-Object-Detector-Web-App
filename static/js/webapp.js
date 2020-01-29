@@ -151,7 +151,7 @@ function runWebcam() {
     console.log(error.message, error.name);
   });
 
-  video.classList.removeClass('hidden');
+  video.classList.remove('hidden');
   $('#webcam-btn').removeClass('btn-primary').addClass('btn-danger shutter-btn')
     .text('Snap Picture').click(snapPic).off('click', runWebcam);
 }
