@@ -51,10 +51,10 @@ function display_box(i) {
 function paint_canvas() {
   update_label_icons();
 
-  var ctx = $('#image-canvas')[0].getContext('2d');
+  var ctx = $('#label-canvas')[0].getContext('2d');
   var can = ctx.canvas;
 
-  var img = $('#user-image');
+  var img = $('#user-canvas');
   can.width = img.width();
   can.height = img.height();
 
@@ -149,7 +149,7 @@ function run_webcam() {
 }
 
 function snap_pic() {
-  var canvas = document.querySelector('#image-canvas');
+  var canvas = document.querySelector('#user-canvas');
   var video = document.querySelector('video');
   canvas.getContext('2d').drawImage(video, 0, 0);
   video.srcObject = null;
@@ -179,7 +179,6 @@ function send_image(data) {
     dataType: 'json',
     success: function(data) {
       predictions = data['predictions'];
-      console.log(predictions);
       paint_canvas();
       if (predictions.length === 0) {
         alert('No Objects Detected');
@@ -219,9 +218,15 @@ $(function() {
     var reader = new FileReader();
     reader.onload = function(event) {
       var file_url = event.target.result;
-      var img_html = '<img id="user-image" src="' + file_url + '" />'
-        + '<canvas id="image-canvas"></canvas>';
-      $('#image-display').html(img_html); // replaces previous img and canvas
+      var img = new Image();
+      img.src = file_url;
+      img.onload = function() {
+        var canvas = document.querySelector('#user-canvas');
+        var ctx = canvas.getContext('2d');
+        canvas.height = this.height;
+        canvas.width = this.width;
+        ctx.drawImage(img, 0, 0, this.width, this.height);
+      };
       predictions = []; // remove any previous metadata
       update_label_icons(); // reset label icons
     };
