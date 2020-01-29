@@ -51,38 +51,36 @@ function display_box(i) {
 function paint_canvas() {
   update_label_icons();
 
-  if ($('#image-canvas').length) {
+  var ctx = $('#image-canvas')[0].getContext('2d');
+  var can = ctx.canvas;
 
-    var ctx = $('#image-canvas')[0].getContext('2d');
-    var can = ctx.canvas;
+  var img = $('#user-image');
+  can.width = img.width();
+  can.height = img.height();
 
-    var img = $('#user-image');
-    can.width = img.width();
-    can.height = img.height();
+  ctx.clearRect(0, 0, can.width, can.height);
 
-    ctx.clearRect(0, 0, can.width, can.height);
+  ctx.font = '16px "IBM Plex Sans"';
+  ctx.textBaseline = 'top';
+  ctx.lineWidth = '3';
 
-    ctx.font = '16px "IBM Plex Sans"';
-    ctx.textBaseline = 'top';
-    ctx.lineWidth = '3';
-
-    for (var i = 0; i < predictions.length; i++) {
-      if (display_box(i)) {
-        if (predictions[i]['label_id'] === highlight) {
-          ctx.strokeStyle = color_highlight;
-        } else {
-          ctx.strokeStyle = color_normal;
-        }
-        paint_box(i, ctx, can);
+  for (var i = 0; i < predictions.length; i++) {
+    if (display_box(i)) {
+      if (predictions[i]['label_id'] === highlight) {
+        ctx.strokeStyle = color_highlight;
+      } else {
+        ctx.strokeStyle = color_normal;
       }
-    }
-
-    for (i = 0; i < predictions.length; i++) {
-      if (display_box(i)) {
-        paint_label_text(i, ctx, can);
-      }
+      paint_box(i, ctx, can);
     }
   }
+
+  for (i = 0; i < predictions.length; i++) {
+    if (display_box(i)) {
+      paint_label_text(i, ctx, can);
+    }
+  }
+  
 }
 
 // module function for painting bounding box on canvas
@@ -127,6 +125,77 @@ function paint_label_text(i, ctx, can) {
   ctx.fillText(text, x + 1, y);
 }
 
+function run_webcam() {
+  var video = document.querySelector('video');
+  var canvas = window.canvas = document.querySelector('#user-canvas');
+  canvas.width = 480;
+  canvas.height = 360;
+
+  var constraints = {
+    audio: false,
+    video: true,
+  };
+
+  function handleSuccess(stream) {
+    window.stream = stream; // make stream available to browser console
+    video.srcObject = stream;
+  };
+
+  function handleError(error) {
+    console.log('navigator.MediaDevices.getUserMedia error: ', error.message, error.name);
+  }
+
+  navigator.mediaDevices.getUserMedia(constraints).then(handleSuccess).catch(handleError);
+}
+
+function snap_pic() {
+  var canvas = document.querySelector('#image-canvas');
+  var video = document.querySelector('video');
+  canvas.getContext('2d').drawImage(video, 0, 0);
+  video.srcObject = null;
+
+  canvas.toBlob(function(blob) {
+    var data = new FormData();
+    data.append('image', blob);
+    data.append('threshold', 0);
+    send_image(data);
+  });
+
+}
+
+
+function send_image(data) {
+  if ($('#file-input').val() !== '') {
+    $('#file-submit').text('Detecting...');
+    $('#file-submit').prop('disabled', true);
+  }
+  // Perform file upload
+  $.ajax({
+    url: '/model/predict',
+    method: 'post',
+    processData: false,
+    contentType: false,
+    data: data,
+    dataType: 'json',
+    success: function(data) {
+      predictions = data['predictions'];
+      console.log(predictions);
+      paint_canvas();
+      if (predictions.length === 0) {
+        alert('No Objects Detected');
+      }
+    },
+    error: function(jqXHR, status, error) {
+      alert('Object Detection Failed: ' + jqXHR.responseText);
+    },
+    complete: function() {
+      $('#file-submit').text('Submit');
+      $('#file-submit').prop('disabled', false);
+      $('#file-input').val('');
+    },
+  });
+  
+}
 // Run or bind functions on page load
 $(function() {
   // Update canvas when window resizes
@@ -157,36 +226,15 @@ $(function() {
       update_label_icons(); // reset label icons
     };
     reader.readAsDataURL(file);
+    send_image(data);
+  });
 
-    if ($('#file-input').val() !== '') {
-      $('#file-submit').text('Detecting...');
-      $('#file-submit').prop('disabled', true);
-
-      // Perform file upload
-      $.ajax({
-        url: '/model/predict',
-        method: 'post',
-        processData: false,
-        contentType: false,
-        data: data,
-        dataType: 'json',
-        success: function(data) {
-          predictions = data['predictions'];
-          paint_canvas();
-          if (predictions.length === 0) {
-            alert('No Objects Detected');
-          }
-        },
-        error: function(jqXHR, status, error) {
-          alert('Object Detection Failed: ' + jqXHR.responseText);
-        },
-        complete: function() {
-          $('#file-submit').text('Submit');
-          $('#file-submit').prop('disabled', false);
-          $('#file-input').val('');
-        },
-      });
-    }
+  // Enable webcam
+  $('#webcam-btn').on('click', function(){
+    run_webcam();
+    $('#webcam-btn').remove();
+    $('#webcam .panel-body').append('<button type="button" id="snap-btn" class="btn btn-danger">Snap Photo</button>');
+    $('#snap-btn').on('click', snap_pic);
   });
 
   // Update threshold value functionality

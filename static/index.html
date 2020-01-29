@@ -34,19 +34,17 @@ limitations under the License.
 
     <div class="row">
 
-      <div class="col-md-6">
-
-        <div id="codait-logo" class="col-md-3">
+        <div id="codait-logo" class="col-md-1">
           <a href="">
             <img src="/img/codait-logo.jpg"/>
           </a>
         </div>
 
-        <div class="col-md-3 title-section">
+        <div class="col-md-2 title-section">
           <h1>MAX Object Detector</h1>
         </div>
 
-        <div class="col-md-6">
+        <div class="col-md-2">
 
           <div id="image-upload" class="panel panel-default">
 
@@ -67,9 +65,25 @@ limitations under the License.
 
         </div>
 
-      </div>
 
-      <div class="col-md-3">
+        <div class="col-md-2">
+
+          <div id="webcam" class="panel panel-default">
+
+            <div class="panel-heading">
+              <div class="panel-title">Use the webcam</div>
+            </div>
+
+            <div class="panel-body">
+              <button type="button" id="webcam-btn" class="btn btn-primary">Enable Webcam</button>
+            </div>
+
+          </div>
+
+        </div>
+
+
+      <div class="col-md-2">
 
         <div id="canvas-tools" class="panel panel-default">
 
@@ -92,7 +106,7 @@ limitations under the License.
 
       </div>
 
-      <div class="col-md-3">
+      <div class="col-md-2">
 
         <div id="label-filter" class="panel panel-default">
 
@@ -117,6 +131,9 @@ limitations under the License.
       <div class="col-md-12">
 
         <div id="image-display"></div>
+        <canvas id="image-canvas"></canvas>
+        <canvas id="user-img"></canvas>
+        <video playsinline autoplay></video>
 
       </div>
 

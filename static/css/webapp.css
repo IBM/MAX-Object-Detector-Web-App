@@ -20,6 +20,14 @@ body {
   font-family: 'IBM Plex Sans', 'Helvetica Neue', Arial, sans-serif;
 }
 
+footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  padding: 10px;
+  right: 0;
+}
+
 .container-fluid {
   padding: 1% 2%;
 }
