@@ -31,7 +31,7 @@ var filter_list = [];
 var predictions = [];
 
 // Refreshes the label icons visibility
-function update_label_icons() {
+function updateLabelIcons() {
   $('.label-icon').hide();
   for (var i = 0; i < predictions.length; i++) {
     var icon_id = '#label-icon-' + predictions[i]['label_id'];
@@ -42,14 +42,21 @@ function update_label_icons() {
 }
 
 // a visibility filter for threshold and and label blacklist
-function display_box(i) {
+function displayBox(i) {
   return predictions[i]['probability'] > threshold
     && !filter_list.includes(predictions[i]['label_id']);
 }
 
+function clearCanvas() {
+  var labelCanvas = $('#label-canvas')[0];
+  var userCanvas = $('#user-canvas')[0];
+  labelCanvas.getContext('2d').clearRect(0, 0, labelCanvas.width, labelCanvas.height);
+  userCanvas.getContext('2d').clearRect(0, 0, userCanvas.width, userCanvas.height)
+}
+
 // (re)paints canvas (if canvas exists) and triggers label visibility refresh
-function paint_canvas() {
-  update_label_icons();
+function paintCanvas() {
+  updateLabelIcons();
 
   var ctx = $('#label-canvas')[0].getContext('2d');
   var can = ctx.canvas;
@@ -65,26 +72,26 @@ function paint_canvas() {
   ctx.lineWidth = '3';
 
   for (var i = 0; i < predictions.length; i++) {
-    if (display_box(i)) {
+    if (displayBox(i)) {
       if (predictions[i]['label_id'] === highlight) {
         ctx.strokeStyle = color_highlight;
       } else {
         ctx.strokeStyle = color_normal;
       }
-      paint_box(i, ctx, can);
+      paintBox(i, ctx, can);
     }
   }
 
   for (i = 0; i < predictions.length; i++) {
-    if (display_box(i)) {
-      paint_label_text(i, ctx, can);
+    if (displayBox(i)) {
+      paintLabelText(i, ctx, can);
     }
   }
   
 }
 
 // module function for painting bounding box on canvas
-function paint_box(i, ctx, can) {
+function paintBox(i, ctx, can) {
   ctx.beginPath();
   var corners = predictions[i]['detection_box'];
   var ymin = corners[0] * can.height;
@@ -96,7 +103,7 @@ function paint_box(i, ctx, can) {
 }
 
 // module function for painting label text on canvas
-function paint_label_text(i, ctx, can) {
+function paintLabelText(i, ctx, can) {
   var probability = predictions[i]['probability'];
   var box = predictions[i]['detection_box'];
   var y = box[0] * can.height;
@@ -125,50 +132,60 @@ function paint_label_text(i, ctx, can) {
   ctx.fillText(text, x + 1, y);
 }
 
-function run_webcam() {
+function runWebcam() {
+  clearCanvas();
   var video = document.querySelector('video');
   var canvas = window.canvas = document.querySelector('#user-canvas');
-  canvas.width = 480;
-  canvas.height = 360;
+  canvas.width = video.videoWidth;
+  canvas.height = video.videoHeight;
 
   var constraints = {
     audio: false,
     video: true,
   };
 
-  function handleSuccess(stream) {
+  navigator.mediaDevices.getUserMedia(constraints).then(function(stream) {
     window.stream = stream; // make stream available to browser console
     video.srcObject = stream;
-  };
+  }).catch(function(error) {
+    console.log(error.message, error.name);
+  });
 
-  function handleError(error) {
-    console.log('navigator.MediaDevices.getUserMedia error: ', error.message, error.name);
-  }
-
-  navigator.mediaDevices.getUserMedia(constraints).then(handleSuccess).catch(handleError);
+  video.classList.removeClass('hidden');
+  $('#webcam-btn').removeClass('btn-primary').addClass('btn-danger shutter-btn')
+    .text('Snap Picture').click(snapPic).off('click', runWebcam);
 }
 
-function snap_pic() {
+function snapPic() {
   var canvas = document.querySelector('#user-canvas');
   var video = document.querySelector('video');
+  canvas.width = video.videoWidth;
+  canvas.height = video.videoHeight;
   canvas.getContext('2d').drawImage(video, 0, 0);
-  video.srcObject = null;
+
+  window.stream.getVideoTracks()[0].stop();
+  video.classList.add('hidden');
 
   canvas.toBlob(function(blob) {
     var data = new FormData();
     data.append('image', blob);
     data.append('threshold', 0);
-    send_image(data);
+    sendImage(data);
   });
+
+  // Reset button
+  $('#webcam-btn').removeClass('shutter-btn btn-danger').addClass('btn-primary')
+    .text('New Picture?').off('click', snapPic).click(runWebcam);
 
 }
 
 
-function send_image(data) {
+function sendImage(data) {
   if ($('#file-input').val() !== '') {
     $('#file-submit').text('Detecting...');
     $('#file-submit').prop('disabled', true);
   }
+
   // Perform file upload
   $.ajax({
     url: '/model/predict',
@@ -179,7 +196,7 @@ function send_image(data) {
     dataType: 'json',
     success: function(data) {
       predictions = data['predictions'];
-      paint_canvas();
+      paintCanvas();
       if (predictions.length === 0) {
         alert('No Objects Detected');
       }
@@ -199,7 +216,7 @@ function send_image(data) {
 $(function() {
   // Update canvas when window resizes
   $(window).resize(function(){
-    paint_canvas();
+    paintCanvas();
   });
 
   // Image upload form submit functionality
@@ -228,25 +245,20 @@ $(function() {
         ctx.drawImage(img, 0, 0, this.width, this.height);
       };
       predictions = []; // remove any previous metadata
-      update_label_icons(); // reset label icons
+      updateLabelIcons(); // reset label icons
     };
     reader.readAsDataURL(file);
-    send_image(data);
+    sendImage(data);
   });
 
   // Enable webcam
-  $('#webcam-btn').on('click', function(){
-    run_webcam();
-    $('#webcam-btn').remove();
-    $('#webcam .panel-body').append('<button type="button" id="snap-btn" class="btn btn-danger">Snap Photo</button>');
-    $('#snap-btn').on('click', snap_pic);
-  });
+  $('#webcam-btn').on('click', runWebcam);
 
   // Update threshold value functionality
   $('#threshold-range').on('input', function() {
     $('#threshold-text span').html(this.value);
     threshold = $('#threshold-range').val() / 100;
-    paint_canvas();
+    paintCanvas();
   });
 
   // Populate the label icons on page load
@@ -270,16 +282,16 @@ $(function() {
         $(this).addClass('hide-label');
         filter_list.push(this_id);
       }
-      paint_canvas();
+      paintCanvas();
     });
 
     // Add mouse over for each icon
     $('.label-icon').hover(function() {
       highlight = $(this).attr('id').match(/\d+$/)[0];
-      paint_canvas();
+      paintCanvas();
     }, function() {
       highlight = '';
-      paint_canvas();
+      paintCanvas();
     });
   });
 });

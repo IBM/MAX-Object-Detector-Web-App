@@ -67,6 +67,10 @@ footer {
   cursor: help;
 }
 
+.hidden {
+  display: none;
+}
+
 #threshold-range {
   margin: 15px 0;
 }
