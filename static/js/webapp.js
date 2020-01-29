@@ -132,12 +132,45 @@ function paintLabelText(i, ctx, can) {
   ctx.fillText(text, x + 1, y);
 }
 
+function submitImageInput(event) {
+
+  if ($('#file-input').val() !== '') {
+    // Stop form from submitting normally
+    event.preventDefault();
+
+    clearCanvas();
+    // Create form data
+    var form = event.target;
+    var file = form[0].files[0];
+    var data = new FormData();
+    data.append('image', file);
+    data.append('threshold', 0);
+
+    // Display image on UI
+    var reader = new FileReader();
+    reader.onload = function(event) {
+      var file_url = event.target.result;
+      var img = new Image();
+      img.src = file_url;
+      img.onload = function() {
+        var canvas = document.querySelector('#user-canvas');
+        var ctx = canvas.getContext('2d');
+        canvas.height = this.height;
+        canvas.width = this.width;
+        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+      };
+      predictions = []; // remove any previous metadata
+      updateLabelIcons(); // reset label icons
+    };
+    reader.readAsDataURL(file);
+    sendImage(data);
+  }
+
+}
+
 function runWebcam() {
   clearCanvas();
   var video = document.querySelector('video');
-  var canvas = window.canvas = document.querySelector('#user-canvas');
-  canvas.width = video.videoWidth;
-  canvas.height = video.videoHeight;
 
   var constraints = {
     audio: false,
@@ -152,13 +185,17 @@ function runWebcam() {
   });
 
   video.classList.remove('hidden');
+
+  // Disable image upload
+  $('#file-submit').prop('disabled', true);
+
   $('#webcam-btn').removeClass('btn-primary').addClass('btn-danger shutter-btn')
-    .text('Snap Picture').click(snapPic).off('click', runWebcam);
+    .text('Snap Picture').click(webcamImageInput).off('click', runWebcam);
 }
 
-function snapPic() {
-  var canvas = document.querySelector('#user-canvas');
+function webcamImageInput() {
   var video = document.querySelector('video');
+  var canvas = document.querySelector('#user-canvas');
   canvas.width = video.videoWidth;
   canvas.height = video.videoHeight;
   canvas.getContext('2d').drawImage(video, 0, 0);
@@ -175,16 +212,16 @@ function snapPic() {
 
   // Reset button
   $('#webcam-btn').removeClass('shutter-btn btn-danger').addClass('btn-primary')
-    .text('New Picture?').off('click', snapPic).click(runWebcam);
+    .text('New Picture?').off('click', webcamImageInput).click(runWebcam);
+
+  // Re-enable image upload
+  $('#file-submit').prop('disabled', false);
 
 }
 
-
 function sendImage(data) {
-  if ($('#file-input').val() !== '') {
-    $('#file-submit').text('Detecting...');
-    $('#file-submit').prop('disabled', true);
-  }
+  $('#file-submit').text('Detecting...');
+  $('#file-submit').prop('disabled', true);
 
   // Perform file upload
   $.ajax({
@@ -210,8 +247,8 @@ function sendImage(data) {
       $('#file-input').val('');
     },
   });
-  
 }
+
 // Run or bind functions on page load
 $(function() {
   // Update canvas when window resizes
@@ -220,36 +257,7 @@ $(function() {
   });
 
   // Image upload form submit functionality
-  $('#file-upload').on('submit', function(event){
-    // Stop form from submitting normally
-    event.preventDefault();
-
-    // Create form data
-    var form = event.target;
-    var file = form[0].files[0];
-    var data = new FormData();
-    data.append('image', file);
-    data.append('threshold', 0);
-
-    // Display image on UI
-    var reader = new FileReader();
-    reader.onload = function(event) {
-      var file_url = event.target.result;
-      var img = new Image();
-      img.src = file_url;
-      img.onload = function() {
-        var canvas = document.querySelector('#user-canvas');
-        var ctx = canvas.getContext('2d');
-        canvas.height = this.height;
-        canvas.width = this.width;
-        ctx.drawImage(img, 0, 0, this.width, this.height);
-      };
-      predictions = []; // remove any previous metadata
-      updateLabelIcons(); // reset label icons
-    };
-    reader.readAsDataURL(file);
-    sendImage(data);
-  });
+  $('#file-upload').on('submit', submitImageInput);
 
   // Enable webcam
   $('#webcam-btn').on('click', runWebcam);
