@@ -51,7 +51,7 @@ function clearCanvas() {
   var labelCanvas = $('#label-canvas')[0];
   var userCanvas = $('#user-canvas')[0];
   labelCanvas.getContext('2d').clearRect(0, 0, labelCanvas.width, labelCanvas.height);
-  userCanvas.getContext('2d').clearRect(0, 0, userCanvas.width, userCanvas.height)
+  userCanvas.getContext('2d').clearRect(0, 0, userCanvas.width, userCanvas.height);
 }
 
 // (re)paints canvas (if canvas exists) and triggers label visibility refresh
@@ -132,6 +132,7 @@ function paintLabelText(i, ctx, can) {
   ctx.fillText(text, x + 1, y);
 }
 
+// Take uploaded image, display to canvas and run model
 function submitImageInput(event) {
 
   if ($('#file-input').val() !== '') {
@@ -168,6 +169,7 @@ function submitImageInput(event) {
 
 }
 
+// Enable the webcam
 function runWebcam() {
   clearCanvas();
   var video = document.querySelector('video');
@@ -189,10 +191,12 @@ function runWebcam() {
   // Disable image upload
   $('#file-submit').prop('disabled', true);
 
+  // Reset button
   $('#webcam-btn').removeClass('btn-primary').addClass('btn-danger shutter-btn')
     .text('Snap Picture').click(webcamImageInput).off('click', runWebcam);
 }
 
+// Output video frame to canvas and run model
 function webcamImageInput() {
   var video = document.querySelector('video');
   var canvas = document.querySelector('#user-canvas');
@@ -219,6 +223,7 @@ function webcamImageInput() {
 
 }
 
+// Send image to model endpoint
 function sendImage(data) {
   $('#file-submit').text('Detecting...');
   $('#file-submit').prop('disabled', true);
