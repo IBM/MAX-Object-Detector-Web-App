@@ -173,7 +173,7 @@ function runWebcam() {
 
   var constraints = {
     audio: false,
-    video: true,
+    video: { width: 9999, height: 9999 },
   };
 
   navigator.mediaDevices.getUserMedia(constraints).then(function(stream) {
