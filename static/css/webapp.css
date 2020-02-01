@@ -16,20 +16,21 @@
 
 /* Style sheet for MAX Object Detector Web App */
 
-body {
+html, body {
   font-family: 'IBM Plex Sans', 'Helvetica Neue', Arial, sans-serif;
+  height: 100%;
 }
 
-footer {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  padding: 10px;
-  right: 0;
+#footer, .push {
+  height: 60px;
+  padding-left: 2%;
+  padding-right: 2%;
 }
 
 .container-fluid {
   padding: 1% 2%;
+  min-height: 100%;
+  margin-bottom: -80px;
 }
 
 #codait-logo {
@@ -83,15 +84,11 @@ footer {
   max-width: 100%;
 }
 
-#user-canvas {
+#image-canvas {
   position: absolute;
-  z-index: 0;
-}
-
-#label-canvas {
-  position: absolute;
-  z-index: 1;
-  background-color: transparent;
+  left: 0;
+  top: 0;
+  z-index: 2;
 }
 
 .label-icon {

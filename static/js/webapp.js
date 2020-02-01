@@ -48,46 +48,47 @@ function displayBox(i) {
 }
 
 function clearCanvas() {
-  var labelCanvas = $('#label-canvas')[0];
-  var userCanvas = $('#user-canvas')[0];
-  labelCanvas.getContext('2d').clearRect(0, 0, labelCanvas.width, labelCanvas.height);
-  userCanvas.getContext('2d').clearRect(0, 0, userCanvas.width, userCanvas.height);
+  $('#image-display').html(''); // removes previous img and canvas
+  predictions = []; // remove any previous metadata
+  updateLabelIcons(); // reset label icons
 }
 
 // (re)paints canvas (if canvas exists) and triggers label visibility refresh
 function paintCanvas() {
   updateLabelIcons();
 
-  var ctx = $('#label-canvas')[0].getContext('2d');
-  var can = ctx.canvas;
+  if ($('#image-canvas').length) {
 
-  var img = $('#user-canvas');
-  can.width = img.width();
-  can.height = img.height();
+    var ctx = $('#image-canvas')[0].getContext('2d');
+    var can = ctx.canvas;
 
-  ctx.clearRect(0, 0, can.width, can.height);
+    var img = $('#user-image');
+    can.width = img.width();
+    can.height = img.height();
 
-  ctx.font = '16px "IBM Plex Sans"';
-  ctx.textBaseline = 'top';
-  ctx.lineWidth = '3';
+    ctx.clearRect(0, 0, can.width, can.height);
 
-  for (var i = 0; i < predictions.length; i++) {
-    if (displayBox(i)) {
-      if (predictions[i]['label_id'] === highlight) {
-        ctx.strokeStyle = color_highlight;
-      } else {
-        ctx.strokeStyle = color_normal;
+    ctx.font = '16px "IBM Plex Sans"';
+    ctx.textBaseline = 'top';
+    ctx.lineWidth = '3';
+
+    for (var i = 0; i < predictions.length; i++) {
+      if (displayBox(i)) {
+        if (predictions[i]['label_id'] === highlight) {
+          ctx.strokeStyle = color_highlight;
+        } else {
+          ctx.strokeStyle = color_normal;
+        }
+        paintBox(i, ctx, can);
       }
-      paintBox(i, ctx, can);
     }
-  }
 
-  for (i = 0; i < predictions.length; i++) {
-    if (displayBox(i)) {
-      paintLabelText(i, ctx, can);
+    for (i = 0; i < predictions.length; i++) {
+      if (displayBox(i)) {
+        paintLabelText(i, ctx, can);
+      }
     }
   }
-  
 }
 
 // module function for painting bounding box on canvas
@@ -151,15 +152,9 @@ function submitImageInput(event) {
     var reader = new FileReader();
     reader.onload = function(event) {
       var file_url = event.target.result;
-      var img = new Image();
-      img.src = file_url;
-      img.onload = function() {
-        var canvas = document.querySelector('#user-canvas');
-        var ctx = canvas.getContext('2d');
-        canvas.height = this.height;
-        canvas.width = this.width;
-        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-      };
+      var img_html = '<img id="user-image" src="' + file_url + '" />'
+        + '<canvas id="image-canvas"></canvas>';
+      $('#image-display').html(img_html); // replaces previous img and canvas
       predictions = []; // remove any previous metadata
       updateLabelIcons(); // reset label icons
     };
@@ -172,6 +167,8 @@ function submitImageInput(event) {
 // Enable the webcam
 function runWebcam() {
   clearCanvas();
+  var video_html = '<video playsinline autoplay></video>';
+  $('#webcam-video').html(video_html);
   var video = document.querySelector('video');
 
   var constraints = {
@@ -199,13 +196,19 @@ function runWebcam() {
 // Output video frame to canvas and run model
 function webcamImageInput() {
   var video = document.querySelector('video');
-  var canvas = document.querySelector('#user-canvas');
+  $('#image-display').html('<canvas id="image-canvas"></canvas>');
+  var canvas = document.querySelector('#image-canvas');
   canvas.width = video.videoWidth;
   canvas.height = video.videoHeight;
   canvas.getContext('2d').drawImage(video, 0, 0);
 
+  var img = document.createElement('img');
+  img.id = 'user-image';
+  img.src = canvas.toDataURL();
+  $('#image-display').prepend(img);
+
   window.stream.getVideoTracks()[0].stop();
-  video.classList.add('hidden');
+  $('#webcam-video').html('');
 
   canvas.toBlob(function(blob) {
     var data = new FormData();

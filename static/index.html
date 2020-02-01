@@ -34,56 +34,44 @@ limitations under the License.
 
     <div class="row">
 
-        <div id="codait-logo" class="col-md-1">
+      <div class="col-md-3">
+
+        <div id="codait-logo" class="col-md-6">
           <a href="">
             <img src="/img/codait-logo.jpg"/>
           </a>
         </div>
 
-        <div class="col-md-2 title-section">
+        <div class="col-md-6 title-section">
           <h1>MAX Object Detector</h1>
         </div>
 
-        <div class="col-md-2">
+      </div>
 
-          <div id="image-upload" class="panel panel-default">
+      <div class="col-md-3">
 
-            <div class="panel-heading">
-              <div class="panel-title">Upload an image</div>
-            </div>
+        <div id="image-upload" class="panel panel-default">
 
-            <div class="panel-body">
-              <form id="file-upload" enctype="multipart/form-data">
-                <div class="form-group">
-                  <input id="file-input" type="file" name="file" accept=".png, .jpg, .jpeg, .gif" />
-                </div>
-                <button id="file-submit" type="submit" class="btn btn-primary">Submit</button>
-              </form>
-            </div>
+          <div class="panel-heading">
+            <div class="panel-title">Upload an image</div>
+          </div>
+
+          <div class="panel-body">
+            <form id="file-upload" enctype="multipart/form-data">
+              <div class="form-group">
+                <input id="file-input" type="file" name="file" accept=".png, .jpg, .jpeg, .gif" />
+              </div>
+              <button id="file-submit" type="submit" class="btn btn-primary">Submit</button>
+              <button id="webcam-btn" type="button" class="btn btn-primary" style="float:right;">Use your webcam</button>
+            </form>
 
           </div>
 
         </div>
 
+      </div>
 
-        <div class="col-md-2">
-
-          <div id="webcam" class="panel panel-default">
-
-            <div class="panel-heading">
-              <div class="panel-title">Use the webcam</div>
-            </div>
-
-            <div class="panel-body">
-              <button type="button" id="webcam-btn" class="btn btn-primary">Enable Webcam</button>
-            </div>
-
-          </div>
-
-        </div>
-
-
-      <div class="col-md-2">
+      <div class="col-md-3">
 
         <div id="canvas-tools" class="panel panel-default">
 
@@ -106,7 +94,7 @@ limitations under the License.
 
       </div>
 
-      <div class="col-md-2">
+      <div class="col-md-3">
 
         <div id="label-filter" class="panel panel-default">
 
@@ -131,20 +119,20 @@ limitations under the License.
       <div class="col-md-12">
 
         <div id="image-display"></div>
-        <canvas id="label-canvas"></canvas>
-        <canvas id="user-canvas"></canvas>
-        <video playsinline autoplay></video>
+        <div id="webcam-video"></div>
 
       </div>
 
     </div>
 
-    <footer class="footer">
-      <hr/>
-      <p style="float:left">Created at the IBM Center for Open-Source Data & AI Technologies</p>
-      <p style="float:right">Source code available on <a href="https://github.com/IBM/MAX-Object-Detector-Web-App" target="_blank">GitHub</a></p>
-    </footer>
+    <div class="push"></div>
 
+  </div>
+
+  <div id="footer">
+    <hr/>
+    <p style="float:left">Created at the IBM Center for Open-Source Data & AI Technologies</p>
+    <p style="float:right">Source code available on <a href="https://github.com/IBM/MAX-Object-Detector-Web-App" target="_blank">GitHub</a></p>
   </div>
 
 </body>
