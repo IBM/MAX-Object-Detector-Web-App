@@ -48,7 +48,7 @@ function displayBox(i) {
 }
 
 function clearCanvas() {
-  $('#image-display').remove();
+  $('#image-display').empty();  // removes previous img and canvas
   predictions = []; // remove any previous metadata
   updateLabelIcons(); // reset label icons
 }
@@ -206,7 +206,7 @@ function webcamImageInput() {
   $('#image-display').prepend(img);
 
   window.stream.getVideoTracks()[0].stop();
-  $('#webcam-video').remove();
+  $('#webcam-video').empty();
 
   canvas.toBlob(function(blob) {
     var data = new FormData();
@@ -214,7 +214,6 @@ function webcamImageInput() {
     data.append('threshold', 0);
     sendImage(data);
   });
-
 
   paintCanvas();
 
