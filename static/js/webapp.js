@@ -217,6 +217,8 @@ function webcamImageInput() {
     sendImage(data);
   });
 
+  paintCanvas();
+
   // Reset button
   $('#webcam-btn').removeClass('shutter-btn btn-danger').addClass('btn-primary')
     .text('New Picture?').off('click', webcamImageInput).click(runWebcam);

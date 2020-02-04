@@ -18,7 +18,7 @@ limitations under the License.
 
   <title>MAX Object Detector</title>
 
-  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico"/>
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
 
   <link rel="stylesheet" href="/css/bootstrap.min.css">
   <link rel="stylesheet" href="/css/webapp.css">
@@ -34,41 +34,39 @@ limitations under the License.
 
     <div class="row">
 
-      <div class="col-md-3">
+      <div class="col-md-6">
 
-        <div id="codait-logo" class="col-md-6">
+        <div id="codait-logo" class="col-md-3">
           <a href="">
-            <img src="/img/codait-logo.jpg"/>
+            <img src="/img/codait-logo.jpg" />
           </a>
         </div>
 
-        <div class="col-md-6 title-section">
+        <div class="col-md-3 title-section">
           <h1>MAX Object Detector</h1>
         </div>
 
-      </div>
+        <div class="col-md-6">
 
-      <div class="col-md-3">
+          <div id="image-upload" class="panel panel-default">
 
-        <div id="image-upload" class="panel panel-default">
+            <div class="panel-heading">
+              <div class="panel-title">Upload an image</div>
+            </div>
 
-          <div class="panel-heading">
-            <div class="panel-title">Upload an image</div>
+            <div class="panel-body">
+              <form id="file-upload" enctype="multipart/form-data">
+                <div class="form-group">
+                  <input id="file-input" type="file" name="file" accept=".png, .jpg, .jpeg, .gif" />
+                </div>
+                <button id="file-submit" type="submit" class="btn btn-primary">Submit</button>
+                <button id="webcam-btn" type="button" class="btn btn-primary" style="float:right;">Use your
+                  webcam</button>
+              </form>
+
+            </div>
           </div>
-
-          <div class="panel-body">
-            <form id="file-upload" enctype="multipart/form-data">
-              <div class="form-group">
-                <input id="file-input" type="file" name="file" accept=".png, .jpg, .jpeg, .gif" />
-              </div>
-              <button id="file-submit" type="submit" class="btn btn-primary">Submit</button>
-              <button id="webcam-btn" type="button" class="btn btn-primary" style="float:right;">Use your webcam</button>
-            </form>
-
-          </div>
-
         </div>
-
       </div>
 
       <div class="col-md-3">
@@ -78,7 +76,8 @@ limitations under the License.
           <div class="panel-heading">
             <div class="panel-title">
               Filter detected objects
-              <span class="info-icon" title="Use the slider to adjust the threshold for displaying detected objects. Lowering the threshold displays objects the model is less certain about. If no bounding boxes are displayed, try lowering the threshold.">&#9432;</span>
+              <span class="info-icon"
+                title="Use the slider to adjust the threshold for displaying detected objects. Lowering the threshold displays objects the model is less certain about. If no bounding boxes are displayed, try lowering the threshold.">&#9432;</span>
             </div>
           </div>
 
@@ -101,7 +100,8 @@ limitations under the License.
           <div class="panel-heading">
             <div class="panel-title">
               Labels Found
-              <span class="info-icon" title="Select a label icon to filter any matching detected objects. Hovering over an icon will highlight any matching objects.">&#9432;</span>
+              <span class="info-icon"
+                title="Select a label icon to filter any matching detected objects. Hovering over an icon will highlight any matching objects.">&#9432;</span>
             </div>
           </div>
 
@@ -130,9 +130,10 @@ limitations under the License.
   </div>
 
   <div id="footer">
-    <hr/>
+    <hr />
     <p style="float:left">Created at the IBM Center for Open-Source Data & AI Technologies</p>
-    <p style="float:right">Source code available on <a href="https://github.com/IBM/MAX-Object-Detector-Web-App" target="_blank">GitHub</a></p>
+    <p style="float:right">Source code available on <a href="https://github.com/IBM/MAX-Object-Detector-Web-App"
+        target="_blank">GitHub</a></p>
   </div>
 
 </body>
