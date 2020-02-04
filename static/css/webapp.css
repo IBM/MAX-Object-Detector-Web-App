@@ -21,12 +21,13 @@ body {
 }
 
 footer {
-  position: fixed;
+  position: relative;
   bottom: 0;
   left: 0;
   padding: 10px;
   right: 0;
 }
+
 
 .container-fluid {
   padding: 1% 2%;
@@ -67,10 +68,6 @@ footer {
   cursor: help;
 }
 
-.hidden {
-  display: none;
-}
-
 #threshold-range {
   margin: 15px 0;
 }
@@ -79,17 +76,17 @@ footer {
   position: relative;
 }
 
-#image-display img {
-  max-width: 100%;
-}
-
 #user-canvas {
   position: absolute;
+  left: 0;
+  top: 0;
   z-index: 0;
 }
 
 #label-canvas {
   position: absolute;
+  left: 0;
+  top: 0;
   z-index: 1;
   background-color: transparent;
 }

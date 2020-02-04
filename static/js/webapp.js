@@ -20,9 +20,9 @@
 'use strict';
 
 // canvas colors
-var color_normal = '#00FF00'; // Lime
-var color_highlight = '#FFFFFF'; // White
-var color_text = '#000000'; // Black
+const COLOR_NORMAL = '#00FF00'; // Lime
+const COLOR_HIGHLIGHT = '#FFFFFF'; // White
+const COLOR_TEXT = '#000000'; // Black
 
 // global vars
 var threshold = 0.5;
@@ -54,6 +54,29 @@ function clearCanvas() {
   userCanvas.getContext('2d').clearRect(0, 0, userCanvas.width, userCanvas.height);
 }
 
+function paintImage(image) {
+  var canvas = $('#user-canvas')[0];
+  var ctx = canvas.getContext('2d');
+  canvas.height = image.height;
+  canvas.width = image.width;
+
+  if (image.nodeName === "VIDEO") {
+    canvas.height = image.videoHeight;
+    canvas.width = image.videoWidth;
+  }
+
+  if (canvas.width > window.screen.width) {
+    var resizeRatio = window.screen.width / canvas.width;
+    canvas.width = canvas.width * resizeRatio;
+    canvas.height = canvas.height * resizeRatio;
+  }
+
+  ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
+
+  // Div contains absolute positioned elements so we need to resize here
+  $('#image-display').width(canvas.width).height(canvas.height);
+}
+
 // (re)paints canvas (if canvas exists) and triggers label visibility refresh
 function paintLabels() {
   updateLabelIcons();
@@ -74,9 +97,9 @@ function paintLabels() {
   for (var i = 0; i < predictions.length; i++) {
     if (displayBox(i)) {
       if (predictions[i]['label_id'] === highlight) {
-        ctx.strokeStyle = color_highlight;
+        ctx.strokeStyle = COLOR_HIGHLIGHT;
       } else {
-        ctx.strokeStyle = color_normal;
+        ctx.strokeStyle = COLOR_NORMAL;
       }
       paintBox(i, ctx, can);
     }
@@ -121,13 +144,13 @@ function paintLabelText(i, ctx, can) {
   var tHeight = parseInt(ctx.font, 10) * 1.4;
 
   if (predictions[i]['label_id'] === highlight) {
-    ctx.fillStyle = color_highlight;
+    ctx.fillStyle = COLOR_HIGHLIGHT;
   } else {
-    ctx.fillStyle = color_normal;
+    ctx.fillStyle = COLOR_NORMAL;
   }
   ctx.fillRect(x, y, tWidth + 3, tHeight);
 
-  ctx.fillStyle = color_text;
+  ctx.fillStyle = COLOR_TEXT;
   ctx.fillText(text, x + 1, y);
 }
 
@@ -153,13 +176,7 @@ function submitImageInput(event) {
       var img = new Image();
       img.src = file_url;
       img.onload = function() {
-        var canvas = $('#user-canvas')[0];
-        var ctx = canvas.getContext('2d');
-        canvas.height = this.height;
-        canvas.width = this.width;
-        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-        // Div contains absolute positioned elements so we need to resize here
-        $('#image-display').width(canvas.width).height(canvas.height);
+        paintImage(this)
       };
       predictions = []; // remove any previous metadata
       updateLabelIcons(); // reset label icons
@@ -199,12 +216,8 @@ function runWebcam() {
 function webcamImageInput() {
   var video = $('video').hide()[0];
   var canvas = $('#user-canvas')[0];
-  canvas.width = video.videoWidth;
-  canvas.height = video.videoHeight;
-  canvas.getContext('2d').drawImage(video, 0, 0);
 
-  // Div contains absolute positioned elements so we need to resize here
-  $('#image-display').width(canvas.width).height(canvas.height);
+  paintImage(video);
 
   window.stream.getVideoTracks()[0].stop();
 
