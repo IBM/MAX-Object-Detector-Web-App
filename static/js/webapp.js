@@ -20,9 +20,9 @@
 'use strict';
 
 // canvas colors
-var color_normal = '#00FF00'; // Lime
-var color_highlight = '#FFFFFF'; // White
-var color_text = '#000000'; // Black
+const COLOR_NORMAL = '#00FF00'; // Lime
+const COLOR_HIGHLIGHT = '#FFFFFF'; // White
+const COLOR_TEXT = '#000000'; // Black
 
 // global vars
 var threshold = 0.5;
@@ -48,7 +48,7 @@ function displayBox(i) {
 }
 
 function clearCanvas() {
-  $('#image-display').html(''); // removes previous img and canvas
+  $('#image-display').remove();
   predictions = []; // remove any previous metadata
   updateLabelIcons(); // reset label icons
 }
@@ -75,9 +75,9 @@ function paintCanvas() {
     for (var i = 0; i < predictions.length; i++) {
       if (displayBox(i)) {
         if (predictions[i]['label_id'] === highlight) {
-          ctx.strokeStyle = color_highlight;
+          ctx.strokeStyle = COLOR_HIGHLIGHT;
         } else {
-          ctx.strokeStyle = color_normal;
+          ctx.strokeStyle = COLOR_NORMAL;
         }
         paintBox(i, ctx, can);
       }
@@ -123,13 +123,13 @@ function paintLabelText(i, ctx, can) {
   var tHeight = parseInt(ctx.font, 10) * 1.4;
 
   if (predictions[i]['label_id'] === highlight) {
-    ctx.fillStyle = color_highlight;
+    ctx.fillStyle = COLOR_HIGHLIGHT;
   } else {
-    ctx.fillStyle = color_normal;
+    ctx.fillStyle = COLOR_NORMAL;
   }
   ctx.fillRect(x, y, tWidth + 3, tHeight);
 
-  ctx.fillStyle = color_text;
+  ctx.fillStyle = COLOR_TEXT;
   ctx.fillText(text, x + 1, y);
 }
 
@@ -183,8 +183,6 @@ function runWebcam() {
     console.log(error.message, error.name);
   });
 
-  video.classList.remove('hidden');
-
   // Disable image upload
   $('#file-submit').prop('disabled', true);
 
@@ -208,7 +206,7 @@ function webcamImageInput() {
   $('#image-display').prepend(img);
 
   window.stream.getVideoTracks()[0].stop();
-  $('#webcam-video').html('');
+  $('#webcam-video').remove();
 
   canvas.toBlob(function(blob) {
     var data = new FormData();
@@ -216,6 +214,7 @@ function webcamImageInput() {
     data.append('threshold', 0);
     sendImage(data);
   });
+
 
   paintCanvas();
 
@@ -225,7 +224,6 @@ function webcamImageInput() {
 
   // Re-enable image upload
   $('#file-submit').prop('disabled', false);
-
 }
 
 // Send image to model endpoint
