@@ -55,7 +55,7 @@ function clearCanvas() {
 }
 
 // (re)paints canvas (if canvas exists) and triggers label visibility refresh
-function paintCanvas() {
+function paintLabels() {
   updateLabelIcons();
 
   var ctx = $('#label-canvas')[0].getContext('2d');
@@ -87,7 +87,6 @@ function paintCanvas() {
       paintLabelText(i, ctx, can);
     }
   }
-  
 }
 
 // module function for painting bounding box on canvas
@@ -154,11 +153,13 @@ function submitImageInput(event) {
       var img = new Image();
       img.src = file_url;
       img.onload = function() {
-        var canvas = document.querySelector('#user-canvas');
+        var canvas = $('#user-canvas')[0];
         var ctx = canvas.getContext('2d');
         canvas.height = this.height;
         canvas.width = this.width;
         ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+        // Div contains absolute positioned elements so we need to resize here
+        $('#image-display').width(canvas.width).height(canvas.height);
       };
       predictions = []; // remove any previous metadata
       updateLabelIcons(); // reset label icons
@@ -172,7 +173,7 @@ function submitImageInput(event) {
 // Enable the webcam
 function runWebcam() {
   clearCanvas();
-  var video = document.querySelector('video');
+  var video = $('video').show()[0];
 
   var constraints = {
     audio: false,
@@ -186,8 +187,6 @@ function runWebcam() {
     console.log(error.message, error.name);
   });
 
-  video.classList.remove('hidden');
-
   // Disable image upload
   $('#file-submit').prop('disabled', true);
 
@@ -198,14 +197,16 @@ function runWebcam() {
 
 // Output video frame to canvas and run model
 function webcamImageInput() {
-  var video = document.querySelector('video');
-  var canvas = document.querySelector('#user-canvas');
+  var video = $('video').hide()[0];
+  var canvas = $('#user-canvas')[0];
   canvas.width = video.videoWidth;
   canvas.height = video.videoHeight;
   canvas.getContext('2d').drawImage(video, 0, 0);
 
+  // Div contains absolute positioned elements so we need to resize here
+  $('#image-display').width(canvas.width).height(canvas.height);
+
   window.stream.getVideoTracks()[0].stop();
-  video.classList.add('hidden');
 
   canvas.toBlob(function(blob) {
     var data = new FormData();
@@ -238,7 +239,7 @@ function sendImage(data) {
     dataType: 'json',
     success: function(data) {
       predictions = data['predictions'];
-      paintCanvas();
+      paintLabels();
       if (predictions.length === 0) {
         alert('No Objects Detected');
       }
@@ -258,7 +259,7 @@ function sendImage(data) {
 $(function() {
   // Update canvas when window resizes
   $(window).resize(function(){
-    paintCanvas();
+    paintLabels();
   });
 
   // Image upload form submit functionality
@@ -271,7 +272,7 @@ $(function() {
   $('#threshold-range').on('input', function() {
     $('#threshold-text span').html(this.value);
     threshold = $('#threshold-range').val() / 100;
-    paintCanvas();
+    paintLabels();
   });
 
   // Populate the label icons on page load
@@ -295,16 +296,16 @@ $(function() {
         $(this).addClass('hide-label');
         filter_list.push(this_id);
       }
-      paintCanvas();
+      paintLabels();
     });
 
     // Add mouse over for each icon
     $('.label-icon').hover(function() {
       highlight = $(this).attr('id').match(/\d+$/)[0];
-      paintCanvas();
+      paintLabels();
     }, function() {
       highlight = '';
-      paintCanvas();
+      paintLabels();
     });
   });
 });
