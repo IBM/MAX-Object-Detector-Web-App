@@ -22,7 +22,7 @@
     "yargs": "^11.0.0"
   },
   "devDependencies": {
-    "eslint": "^5.0.1",
+    "eslint": "^6.0.0",
     "eslint-config-strongloop": "^2.1.0"
   }
 }

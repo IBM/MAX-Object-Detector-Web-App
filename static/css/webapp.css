@@ -16,12 +16,26 @@
 
 /* Style sheet for MAX Object Detector Web App */
 
-body {
+html, body {
   font-family: 'IBM Plex Sans', 'Helvetica Neue', Arial, sans-serif;
+  height: 100%;
+}
+
+video {
+  height: 100%;
+  width: 100%;
+}
+
+#footer, .push {
+  height: 60px;
+  padding-left: 2%;
+  padding-right: 2%;
 }
 
 .container-fluid {
   padding: 1% 2%;
+  min-height: 100%;
+  margin-bottom: -80px;
 }
 
 #codait-logo {
@@ -58,7 +72,7 @@ body {
   font-weight: bold;
   cursor: help;
 }
-
+ 
 #threshold-range {
   margin: 15px 0;
 }
