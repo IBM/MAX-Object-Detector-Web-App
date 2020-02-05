@@ -48,7 +48,7 @@ function displayBox(i) {
 }
 
 function clearCanvas() {
-  $('#image-display').empty();  // removes previous img and canvas
+  $('#image-display').empty(); // removes previous img and canvas
   predictions = []; // remove any previous metadata
   updateLabelIcons(); // reset label icons
 }
