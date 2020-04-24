@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/IBM/MAX-Object-Detector-Web-App.svg?branch=master)](https://travis-ci.org/IBM/MAX-Object-Detector-Web-App) [![Website Status](https://img.shields.io/website/http/max-object-detector.max.us-south.containers.appdomain.cloud/app.svg?label=demo+app)](http://max-object-detector.max.us-south.containers.appdomain.cloud/app/)
+[![Build Status](https://travis-ci.org/IBM/MAX-Object-Detector-Web-App.svg?branch=master)](https://travis-ci.org/IBM/MAX-Object-Detector-Web-App) [![Website Status](https://img.shields.io/website/http/max-object-detector.codait-prod-41208c73af8fca213512856c7a09db52-0000.us-east.containers.appdomain.cloud/app.svg?label=demo+app)](http://max-object-detector.codait-prod-41208c73af8fca213512856c7a09db52-0000.us-east.containers.appdomain.cloud/app/)
 
 # Create a web app to visually interact with objects detected using machine learning
 
