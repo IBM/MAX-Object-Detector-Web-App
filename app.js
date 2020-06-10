@@ -19,17 +19,36 @@
 var request = require('request');
 var yargs = require('yargs');
 var express = require('express');
+var util = require('util');
+
+const requestPromise = util.promisify(request);
 
 var args = yargs
   .default('port', 8090)
   .default('model', 'http://localhost:5000')
   .argv;
 
+var endpoints = ['http://localhost:5000', 'http://localhost:5000']
 var app = express();
 
 app.use(express.static('static'));
 
-app.all('/model/:route', function(req, res) {
+// Get all the model IDs for the endpoints configured
+app.get('/model', function(req, res) {
+  var models = [];
+  var promises = endpoints.map((endpoint) => {
+    return requestPromise(`${endpoint}/model/metadata`)
+      .then((response) => {
+        return JSON.parse(response.body)['id'];
+      });
+  });
+
+  Promise.all(promises).then((data) => {
+    console.log(data)
+  });
+});
+
+app.post('/model/:route', function(req, res) {
   req.pipe(request(args.model + req.path))
     .on('error', function(err) {
       console.error(err);
