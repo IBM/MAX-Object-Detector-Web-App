@@ -28,14 +28,21 @@ var args = yargs
   .default('model', 'http://localhost:5000')
   .argv;
 
-var endpoints = ['http://localhost:5000', 'http://localhost:5000']
 var endpointsMap = {}
 var app = express();
 
 app.use(express.static('static'));
+console.log(args);
 
 // Get all the model IDs for the endpoints configured
 app.get('/models', function(req, res) {
+
+  let endpoints = args.model;
+
+  if (!Array.isArray(args.model)) {
+    endpoints = [endpoints];
+  }
+
   var promises = endpoints.map((endpoint) => {
     return requestPromise(`${endpoint}/model/metadata`)
       .then((response) => {
