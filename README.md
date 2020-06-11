@@ -188,6 +188,11 @@ If you want to use a different port or are running the model API at a different 
 $ node app --port=[new port] --model=[endpoint url including protocol and port]
 ```
 
+If you want to use multiple endpoints for your model you can pass in multiple arguments to model
+```
+$ node app --model=[model 1 endpoint] --model=[model 2 endpoint]
+```
+
 # Sample Output
 
 ![Web UI Screenshot](doc/source/images/webui.png)
