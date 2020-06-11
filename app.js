@@ -28,7 +28,7 @@ var args = yargs
   .default('model', 'http://localhost:5000')
   .argv;
 
-var endpointsMap = {}
+var endpointsMap = {};
 var app = express();
 
 app.use(express.static('static'));

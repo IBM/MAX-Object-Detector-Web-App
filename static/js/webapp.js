@@ -324,7 +324,6 @@ $(function() {
   // Populate the dropdown menu with models available and select default model
   $.get('/models', function(result) {
     $.each(result, function(i, model) {
-      console.log(result);
       if (i === 0) {
         selectedModel = model;
       }
