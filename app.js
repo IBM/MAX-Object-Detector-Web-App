@@ -29,27 +29,29 @@ var args = yargs
   .argv;
 
 var endpoints = ['http://localhost:5000', 'http://localhost:5000']
+var endpointsMap = {}
 var app = express();
 
 app.use(express.static('static'));
 
 // Get all the model IDs for the endpoints configured
-app.get('/model', function(req, res) {
-  var models = [];
+app.get('/models', function(req, res) {
   var promises = endpoints.map((endpoint) => {
     return requestPromise(`${endpoint}/model/metadata`)
       .then((response) => {
+        endpointsMap[JSON.parse(response.body)['id']] = endpoint;
         return JSON.parse(response.body)['id'];
       });
   });
 
   Promise.all(promises).then((data) => {
-    console.log(data)
+    res.send(data);
   });
 });
 
-app.post('/model/:route', function(req, res) {
-  req.pipe(request(args.model + req.path))
+// Set model endpoint
+app.all('/model/:route/:modelID', function(req, res) {
+  req.pipe(request(endpointsMap[req.params.modelID] + '/model/' + req.params.route))
     .on('error', function(err) {
       console.error(err);
       res.status(500).send('Error connecting to the model microservice');

@@ -56,6 +56,10 @@ video {
   font-size: 18px;
 }
 
+.panel .dropdown {
+  margin-top: 20px;
+}
+
 .ibm-code .btn-primary {
   background-color: #26A8A2;
   border-color: #32A8A3;

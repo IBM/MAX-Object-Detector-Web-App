@@ -24,6 +24,7 @@ limitations under the License.
   <link rel="stylesheet" href="/css/webapp.css">
 
   <script src="/js/jquery-3.3.1.min.js"></script>
+  <script src="/js/bootstrap.min.js"></script>
   <script src="/js/webapp.js"></script>
 
 </head>
@@ -69,7 +70,34 @@ limitations under the License.
         </div>
       </div>
 
-      <div class="col-md-3">
+      <div class="col-md-2">
+
+        <div id="endpoint-select" class="panel panel-default">
+
+          <div class="panel-heading">
+            <div class="panel-title">
+              Model Selection
+              <span class="info-icon"
+                title="Use the dropdown-menu to choose between different models (if enabled).">&#9432;</span>
+            </div>
+          </div>
+
+          <div class="panel-body">
+            <div class="dropdown">
+              <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                <span id="selected-endpoint"></span>
+                <span class="caret"></span>
+              </button>
+              <ul class="dropdown-menu" id="endpoint-menu" aria-labelledby="dropdownMenu1">
+              </ul>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+      <div class="col-md-2">
 
         <div id="canvas-tools" class="panel panel-default">
 
@@ -93,7 +121,7 @@ limitations under the License.
 
       </div>
 
-      <div class="col-md-3">
+      <div class="col-md-2">
 
         <div id="label-filter" class="panel panel-default">
 

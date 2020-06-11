@@ -29,6 +29,7 @@ var threshold = 0.5;
 var highlight = '';
 var filter_list = [];
 var predictions = [];
+var selectedModel = '';
 
 // Refreshes the label icons visibility
 function updateLabelIcons() {
@@ -212,6 +213,7 @@ function webcamImageInput() {
     var data = new FormData();
     data.append('image', blob);
     data.append('threshold', 0);
+    data.append('model', 'test_model');
     sendImage(data);
   });
 
@@ -232,7 +234,7 @@ function sendImage(data) {
 
   // Perform file upload
   $.ajax({
-    url: '/model/predict',
+    url: '/model/predict/' + selectedModel,
     method: 'post',
     processData: false,
     contentType: false,
@@ -256,28 +258,16 @@ function sendImage(data) {
   });
 }
 
-// Run or bind functions on page load
-$(function() {
-  // Update canvas when window resizes
-  $(window).resize(function(){
-    paintCanvas();
-  });
+// On click model
+function handleModelSelect() {
+  selectedModel = $(this).text();
+  // Shorten name if too long
+  $('#selected-endpoint').text(selectedModel.length < 15 ? selectedModel : selectedModel.substring(0, 15) + '...');
+}
 
-  // Image upload form submit functionality
-  $('#file-upload').on('submit', submitImageInput);
-
-  // Enable webcam
-  $('#webcam-btn').on('click', runWebcam);
-
-  // Update threshold value functionality
-  $('#threshold-range').on('input', function() {
-    $('#threshold-text span').html(this.value);
-    threshold = $('#threshold-range').val() / 100;
-    paintCanvas();
-  });
-
-  // Populate the label icons on page load
-  $.get('/model/labels', function(result) {
+function loadIcons() {
+  // Populate the label icons
+  $.get('/model/labels/' + selectedModel, function(result) {
     $.each(result['labels'], function(i, label) {
       $('#label-icons').append($('<img>', {
         class: 'label-icon',
@@ -309,4 +299,43 @@ $(function() {
       paintCanvas();
     });
   });
+}
+
+// Run or bind functions on page load
+$(function() {
+  // Update canvas when window resizes
+  $(window).resize(function(){
+    paintCanvas();
+  });
+
+  // Image upload form submit functionality
+  $('#file-upload').on('submit', submitImageInput);
+
+  // Enable webcam
+  $('#webcam-btn').on('click', runWebcam);
+
+  // Update threshold value functionality
+  $('#threshold-range').on('input', function() {
+    $('#threshold-text span').html(this.value);
+    threshold = $('#threshold-range').val() / 100;
+    paintCanvas();
+  });
+
+  // Populate the dropdown menu with models available and select default model
+  $.get('/models', function(result) {
+    $.each(result, function(i, model) {
+      console.log(result);
+      if (i === 0) {
+        selectedModel = model;
+      }
+      $('#endpoint-menu').append($('<li>')
+        .append($('<a>', {
+          text: model,
+          onClick: handleModelSelect
+        }))
+      );
+    });
+    loadIcons();
+  });
+
 });
