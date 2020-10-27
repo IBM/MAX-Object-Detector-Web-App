@@ -73,7 +73,7 @@ free and open source deep learning models.
 To run the docker image, which automatically starts the model serving API, run:
 
 ```
-$ docker run -it -p 5000:5000 codait/max-object-detector
+$ docker run -it -p 5000:5000 quay.io/codait/max-object-detector
 ```
 
 This will pull a pre-built image from Docker Hub (or use an existing image if already cached locally) and run it.
