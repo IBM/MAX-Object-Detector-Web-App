@@ -76,7 +76,7 @@ To run the docker image, which automatically starts the model serving API, run:
 $ docker run -it -p 5000:5000 quay.io/codait/max-object-detector
 ```
 
-This will pull a pre-built image from Docker Hub (or use an existing image if already cached locally) and run it.
+This will pull a pre-built image from Quay.io (or use an existing image if already cached locally) and run it.
 If you'd rather build and run the model locally, or deploy on a Kubernetes cluster, you can follow the steps in the
 [model README](https://github.com/IBM/MAX-Object-Detector/#steps).
 
