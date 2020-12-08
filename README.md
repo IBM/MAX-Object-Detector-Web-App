@@ -44,7 +44,7 @@ free and open source deep learning models.
 
 # Watch the Video
 
-[![Watch the Video](https://img.youtube.com/vi/Hs6sVWmfVFw/0.jpg)](https://www.youtube.com/watch?v=Hs6sVWmfVFw)
+[Watch the Video](https://video.ibm.com/recorded/128825527)
 
 # Steps
 
