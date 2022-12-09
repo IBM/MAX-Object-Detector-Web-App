@@ -1,3 +1,7 @@
+# WARNING: This repository is no longer maintained :warning:
+
+> This repository will not be updated. The repository will be kept available in read-only mode.
+
 [![Build Status](https://travis-ci.org/IBM/MAX-Object-Detector-Web-App.svg?branch=master)](https://travis-ci.org/IBM/MAX-Object-Detector-Web-App) [![Website Status](https://img.shields.io/website/http/max-object-detector.codait-prod-41208c73af8fca213512856c7a09db52-0000.us-east.containers.appdomain.cloud/app.svg?label=demo+app)](http://max-object-detector.codait-prod-41208c73af8fca213512856c7a09db52-0000.us-east.containers.appdomain.cloud/app/)
 
 # Create a web app to visually interact with objects detected using machine learning
